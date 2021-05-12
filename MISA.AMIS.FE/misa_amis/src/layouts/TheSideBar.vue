@@ -48,7 +48,7 @@ export default {
           name: "Mua hàng",
         },
         {
-          path: "",
+          path: "/Employee",
           class: "icon icon-sell",
           name: "Bán hàng",
         },

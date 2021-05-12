@@ -21,7 +21,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 div {
   display: flex;
 }
@@ -30,15 +30,13 @@ div {
   top: 0;
   right: 0;
   bottom: 0;
-  background-color: bisque;
+  background-color: #f4f5f6;
+  flex-direction: column;
+  overflow: hidden;
 }
 .body-right .content {
-  background-color: #ffffff;
-  position: absolute;
-  top: 50px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 10px 10px 0px 10px;
+  padding: 0px 30px 0px 0px;
+  height: calc(100vh - 50px);
+  margin-left: 20px;
 }
 </style>
