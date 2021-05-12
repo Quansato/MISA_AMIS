@@ -33,6 +33,7 @@ div {
   background-color: #f4f5f6;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
 .body-right .content {
   padding: 0px 30px 0px 0px;

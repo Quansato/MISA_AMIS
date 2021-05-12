@@ -123,9 +123,9 @@ a {
 }
 
 .body-left .menu {
- display: flex;
-    padding-top: 10px;
-    flex-direction: column
+  display: flex;
+  padding-top: 10px;
+  flex-direction: column;
 }
 
 .body-left .menu .menu-item {
@@ -138,7 +138,7 @@ a {
 }
 
 .body-left .menu .menu-item:hover {
-  background-color: #616164
+  background-color: #616164;
 }
 
 .body-left .menu .menu-item .icon {
@@ -178,7 +178,7 @@ a {
   background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -291px -1628px;
 }
 
-.body-left .menu .menu-item .icon-tool{
+.body-left .menu .menu-item .icon-tool {
   background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -336px -1628px;
 }
 

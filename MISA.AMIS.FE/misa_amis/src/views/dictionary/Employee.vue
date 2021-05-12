@@ -22,90 +22,108 @@
     </div>
 
     <div class="content__grid">
-      <div class="content__grid--data">
-        <!-- grid -->
-        <table border="0" cellspacing="0" width="100%" id="tblEmployees">
-          <thead>
-            <th class="td-left-16"></th>
-            <th class="sticky-left left-16">
+      <!-- <div class="content__grid--data"> -->
+      <!-- grid -->
+      <table border="0" cellspacing="0" width="100%" id="tblEmployees">
+        <thead>
+          <th class="td-left-16"></th>
+          <th class="sticky-left left-16">
+            <input type="checkbox" name="" id="" />
+          </th>
+          <th class="sticky-left left-66">Mã nhân viên</th>
+          <th>Tên nhân viên</th>
+          <th>Giới tính</th>
+          <th class="text-right">Ngày sinh</th>
+          <th>Số CMND</th>
+          <th>Chức danh</th>
+          <th>Tên đơn vị</th>
+          <th>Số tài khoản</th>
+          <th class="text-right">Tên ngân hàng</th>
+          <th>Chi nhánh tài khoản ngân hàng</th>
+          <th class="sticky-right">Chức năng</th>
+          <th class="td-white-30"></th>
+          <th class="td-grey-30"></th>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(item, index) in dataEmployee"
+            :key="index"
+            @click="highlight($event, index)"
+            @dblclick="rowdblClick(item)"
+          >
+            <td class="td-left-16"></td>
+            <td class="sticky-left left-16">
               <input type="checkbox" name="" id="" />
-            </th>
-            <th class="sticky-left left-66">Mã nhân viên</th>
-            <th>Tên nhân viên</th>
-            <th>Giới tính</th>
-            <th class="text-right">Ngày sinh</th>
-            <th>Số CMND</th>
-            <th>Chức danh</th>
-            <th>Tên đơn vị</th>
-            <th>Số tài khoản</th>
-            <th class="text-right">Tên ngân hàng</th>
-            <th>Chi nhánh tài khoản ngân hàng</th>
-            <th class="sticky-right">Chức năng</th>
-            <th class="td-white-30"></th>
-            <th class="td-grey-30"></th>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(item, index) in dataEmployee"
-              :key="index"
-              @click="highlight($event, index)"
-              @dblclick="rowdblClick(item)"
-            >
-              <td class="td-left-16"></td>
-              <td class="sticky-left left-16">
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td :title="item.EmployeeCode" class="sticky-left left-66">
-                {{ item.EmployeeCode }}
-              </td>
-              <td>{{ item.EmployeeName }}</td>
-              <td>{{ item.Gender }}</td>
-              <td class="text-right">
-                {{ $fn.fnFormatDate(item.DateOfBirth) }}
-              </td>
-              <td>{{ item.IdentityNumber }}</td>
-              <td>{{ item.EmployeePosition }}</td>
-              <td></td>
-              <td>{{ item.BankAccountNumber }}</td>
-              <td class="text-right">
-                {{ item.BankName }}
-              </td>
-              <td>{{ item.BankProvinceName }}</td>
-              <td
-                class="sticky-right"
-                @click="onDeleteEmployee(item.EmployeeId)"
-              >
-                Sửa
-              </td>
+            </td>
+            <td :title="item.EmployeeCode" class="sticky-left left-66">
+              {{ item.EmployeeCode }}
+            </td>
+            <td>{{ item.EmployeeName }}</td>
+            <td>{{ item.Gender }}</td>
+            <td class="text-right">
+              {{ $fn.fnFormatDate(item.DateOfBirth) }}
+            </td>
+            <td>{{ item.IdentityNumber }}</td>
+            <td>{{ item.EmployeePosition }}</td>
+            <td></td>
+            <td>{{ item.BankAccountNumber }}</td>
+            <td class="text-right">
+              {{ item.BankName }}
+            </td>
+            <td>{{ item.BankProvinceName }}</td>
+            <td class="sticky-right" @click="onDeleteEmployee(item.EmployeeId)">
+              Sửa
+            </td>
+            <td class="td-white-30"></td>
+            <td class="td-grey-30"></td>
+          </tr>
+        </tbody>
+      </table>
 
-              <td class="td-white-30"></td>
-              <td class="td-grey-30"></td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="pagination items-center">
-          <div class="total-record">
-            Tổng số:
+      <div class="pagination items-center">
+        <div class="total-record">
+          Tổng số: 20 bản ghi
+        </div>
+        <div class="select flex items-center">
+          <select name="" id="">
+            <option value="10">10 bản ghi trên 1 trang</option>
+            <option value="20">20 bản ghi trên 1 trang</option>
+            <option value="30">30 bản ghi trên 1 trang</option>
+            <option value="40">40 bản ghi trên 1 trang</option>
+            <option value="50">50 bản ghi trên 1 trang</option>
+          </select>
+          <button class="btn-previous mr-4">Trước</button>
+          <div class="page flex">
+            <div class="page-number page-active">1</div>
+            <div class="page-number">2</div>
           </div>
+          <button class="btn-next ml-4">Sau</button>
         </div>
       </div>
+      <!-- </div> -->
     </div>
+    <Detail/>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Detail from "./EmployeeDetail";
+
 export default {
+  components: {
+    Detail,
+  },
   data() {
     return {
+      API_HOST: this.$Const.API_HOST,
       dataEmployee: [],
     };
   },
   methods: {
     onLoadEmployee() {
       var me = this;
-      var url = this.$Const.API_HOST + "/api/v1/Employees";
+      var url = me.API_HOST + "/api/v1/Employees";
       axios
         .get(url)
         .then((response) => {
@@ -146,7 +164,7 @@ export default {
 }
 
 .content .content__grid {
-  width: 100%;
+  min-width: 100%;
   /* height: 100%; */
   background-color: #ffffff;
 }
@@ -166,7 +184,7 @@ export default {
   width: 240px;
 }
 
-.content .content__grid--data .grid-filter .search .icon-search {
+.content .grid-filter .search .icon-search {
   position: absolute;
   background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat -992px -360px;
   cursor: pointer;
@@ -180,22 +198,36 @@ export default {
   cursor: pointer;
 }
 
-.content .content__grid--data .pagination {
-  position: sticky;
-  bottom: 0;
-  z-index: 4;
+.content .pagination {
+  position: absolute;
+  bottom: 10px;
+  z-index: 6;
   background-color: #fff;
   display: flex;
   min-height: 47px;
   padding-left: 16px;
+  padding-right: 30px;
+  width: 93%;
+  justify-content: space-between;
+}
+
+.content .pagination .select {
+  justify-content: space-between;
+}
+
+.content .pagination .select select {
+  margin: 0 16px;
+  width: 200px;
+  min-width: 200px;
 }
 
 table {
   display: grid;
   min-width: 100%;
+  width: calc(100% + 500px);
   grid-template-columns:
-    minmax(16px, 16px) minmax(50px, 1fr)
-    minmax(130px, 1fr) minmax(150px, 1.67fr) minmax(100px, 0.5fr)
+    minmax(16px, 16px) minmax(40px, 40px)
+    minmax(130px, 1fr) minmax(200px, 1.67fr) minmax(100px, 0.5fr)
     minmax(130px, 1fr) minmax(130px, 2fr) minmax(150px, 1.67fr) minmax(
       150px,
       3.33fr
@@ -234,23 +266,23 @@ td {
 
 th.sticky-right {
   border-left: 1px solid #c7c7c7;
-  background-color: #eceef1 !important;
+  background: #eceef1 !important;
   z-index: 5;
 }
 
 th.sticky-left {
-  background-color: #eceef1 !important;
+  background: #eceef1 !important;
   z-index: 5;
 }
 
 th {
   position: sticky;
-  top: 72px;
+  top: 78px;
   background-color: #ffffff;
   padding: 5px 10px 3px;
   border-right: 1px solid #c7c7c7;
   border-bottom: 1px solid #c7c7c7;
-  background-color: #eceef1;
+  background: #eceef1;
 }
 /* tr:nth-child(even) td {
   background: #f6f6f6;
@@ -260,11 +292,7 @@ td:last-child {
   justify-content: center;
   cursor: pointer;
 }
-tr:hover > td {
-  background-color: #ca99c617;
-}
-
-tr:hover > td.sticky-left {
-  z-index: 5;
+tr:hover > td:not(:first-child, :last-child, :nth-child(14)) {
+  background: #f3f8f8 !important;
 }
 </style>
