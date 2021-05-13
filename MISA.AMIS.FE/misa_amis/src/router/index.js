@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 //Views
 import Employee from "../views/dictionary/Employee";
 //import Pagination from '../components/pagination/Pagination'
-//import DialogConfirm from "../components/Dialog/DialogConfirm";
+import AlertConfirm from "../components/Alert/Alert";
 //import AppLayout from '@/layouts/AppLayout'
 
 const routes = [
@@ -15,11 +15,11 @@ const routes = [
     name: "Employee",
     component: Employee,
   },
-  // {
-  //   path: "/Pagination",
-  //   name: "DialogConfirm",
-  //   component: DialogConfirm,
-  // },
+  {
+    path: "/Alert",
+    name: "AlertConfirm",
+    component: AlertConfirm,
+  },
 ];
 
 const router = new VueRouter({

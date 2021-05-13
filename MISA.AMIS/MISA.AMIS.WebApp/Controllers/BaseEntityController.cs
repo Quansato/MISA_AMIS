@@ -42,7 +42,7 @@ namespace MISA.AMIS.WebApp.Controllers
         /// Lấy toàn bộ dữ liệu
         /// </summary>
         /// <returns>Nếu có dữ liệu: trả vễ HttpCode 200; 204 nếu không có dữ liệu</returns>
-        /// CreatedBy: ntquan(29/04/2021)
+        /// CreatedBy: ntquan(11/05/2021)
         [HttpGet]
         public IActionResult Get()
         {
@@ -62,7 +62,7 @@ namespace MISA.AMIS.WebApp.Controllers
         /// </summary>
         /// <param name="entityId">Id của bảng dữ liệu</param>
         /// <returns>Thông tin của 1 đối tượng</returns>
-        /// CreatedBy: ntquan(29/04/2021)
+        /// CreatedBy: ntquan(11/05/2021)
         [HttpGet("{entityId}")]
         public IActionResult Get(string entityId)
         {
@@ -84,7 +84,7 @@ namespace MISA.AMIS.WebApp.Controllers
         ///  - Lỗi dữ liệu không hợp lệ : 400 (BadRequest)
         ///  - HttpCode: 500 nếu có lỗi hoặc Exceotion xảy ra trên Server
         /// </returns>
-        /// CreatedBy: ntquan(29/04/2021)
+        /// CreatedBy: ntquan(11/05/2021)
         [HttpPost]
         public IActionResult Post([FromBody] MISAEntity entity)
         {
@@ -106,7 +106,7 @@ namespace MISA.AMIS.WebApp.Controllers
         ///  - Lỗi dữ liệu không hợp lệ : 400 (BadRequest)
         ///  - HttpCode: 500 nếu có lỗi hoặc Exceotion xảy ra trên Server
         /// </returns>
-        ///  CreatedBy: ntquan(05/05/2021)
+        ///  CreatedBy: ntquan(11/05/2021)
         [HttpPut]
         public IActionResult Put([FromBody] MISAEntity entity, Guid entityId)
         {
@@ -123,7 +123,7 @@ namespace MISA.AMIS.WebApp.Controllers
         /// </summary>
         /// <param name="id"> Id thực thể</param>
         /// <returns></returns>
-        /// CreatedBy: ntquan(05/05/2021)
+        /// CreatedBy: ntquan(11/05/2021)
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {

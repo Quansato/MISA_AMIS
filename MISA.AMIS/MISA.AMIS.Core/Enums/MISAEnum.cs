@@ -35,4 +35,25 @@ namespace MISA.AMIS.Core.Enums
         Update = 2,
         Delete = 3
     }
+
+    /// <summary>
+    /// Enum giới tính
+    /// </summary>
+    public enum Gender
+    {
+        /// <summary>
+        /// Nam
+        /// </summary>
+        Male = 1,
+
+        /// <summary>
+        /// Nữ
+        /// </summary>
+        Female = 0,
+
+        /// <summary>
+        /// Không xác định
+        /// </summary>
+        Other = 2
+    }
 }

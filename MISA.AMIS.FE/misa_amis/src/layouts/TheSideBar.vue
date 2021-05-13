@@ -28,7 +28,7 @@ export default {
     return {
       menuItem: [
         {
-          path: "",
+          path: "/Alert",
           class: "icon icon-overview",
           name: "Tổng quan",
         },

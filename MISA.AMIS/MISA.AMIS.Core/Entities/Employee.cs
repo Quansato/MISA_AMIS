@@ -51,6 +51,29 @@ namespace MISA.AMIS.Core.Entities
         /// </summary>
         public int? Gender { get; set; }
 
+
+        public string GenderName {
+            get
+            {
+                var name = string.Empty;
+                switch (Gender)
+                {
+                    case (int)Enums.Gender.Female:
+                        name = "Nữ";
+                        break;
+                    case (int)Enums.Gender.Male:
+                        name = "Nam";
+                        break;
+                    case (int)Enums.Gender.Other:
+                        name = "Khác";
+                        break;
+                    default:
+                        break;
+                }
+                return name;
+            }
+        }
+
         /// <summary>
         ///  Số CMND/Thẻ căn cước
         /// </summary>
@@ -107,6 +130,11 @@ namespace MISA.AMIS.Core.Entities
         /// </summary>
         [Primary]
         public Guid? DepartmentId { get; set; }
+        
+        /// <summary>
+        /// Tên phòng ban
+        /// </summary>
+        public string DepartmentName { get; set; }
 
         /// <summary>
         /// Mã số thuế của cá nhân

@@ -75,3 +75,4 @@ C:\Users\ASUS\Desktop\MISA_AMIS\MISA.AMIS\MISA.AMIS.WebApp\obj\Debug\net5.0\MISA
 C:\Users\ASUS\Desktop\MISA_AMIS\MISA.AMIS\MISA.AMIS.WebApp\obj\Debug\net5.0\ref\MISA.AMIS.WebApp.dll
 C:\Users\ASUS\Desktop\MISA_AMIS\MISA.AMIS\MISA.AMIS.WebApp\obj\Debug\net5.0\MISA.AMIS.WebApp.pdb
 C:\Users\ASUS\Desktop\MISA_AMIS\MISA.AMIS\MISA.AMIS.WebApp\obj\Debug\net5.0\MISA.AMIS.WebApp.genruntimeconfig.cache
+C:\Users\ntquan\Desktop\mf796-ntquan\MISA.AMIS\MISA.AMIS.WebApp\obj\Debug\net5.0\MISA.AMIS.WebApp.MvcApplicationPartsAssemblyInfo.cs
