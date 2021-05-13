@@ -3,7 +3,7 @@
     <!-- header content -->
     <div class="content__header flex items-center">
       <p class="content__header--title">Nhân viên</p>
-      <button class="m-btn" id="btnAdd">
+      <button class="m-btn" id="btnAdd" @click="onAddEmployee">
         Thêm nhân viên
       </button>
     </div>
@@ -28,12 +28,19 @@
         <thead>
           <th class="td-left-16"></th>
           <th class="sticky-left left-16">
-            <input type="checkbox" name="" id="" />
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              class="right-5"
+              @click="selectAll"
+              ref="selectAll"
+            />
           </th>
           <th class="sticky-left left-66">Mã nhân viên</th>
           <th>Tên nhân viên</th>
           <th>Giới tính</th>
-          <th class="text-right">Ngày sinh</th>
+          <th class="text-center">Ngày sinh</th>
           <th>Số CMND</th>
           <th>Chức danh</th>
           <th>Tên đơn vị</th>
@@ -48,30 +55,115 @@
           <tr
             v-for="(item, index) in dataEmployee"
             :key="index"
-            @click="highlight($event, index)"
             @dblclick="rowdblClick(item)"
           >
             <td class="td-left-16"></td>
-            <td class="sticky-left left-16">
-              <input type="checkbox" name="" id="" />
+            <!-- checkbox -->
+            <td
+              class="sticky-left left-16"
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            >
+              <input
+                type="checkbox"
+                name=""
+                id=""
+                class="right-5"
+                @click="highlight(item.EmployeeId, $event)"
+                :checked="selectedUser.indexOf(item.EmployeeId) != -1"
+              />
             </td>
-            <td :title="item.EmployeeCode" class="sticky-left left-66">
+            <!-- Mã NV -->
+            <td
+              :title="item.EmployeeCode"
+              class="sticky-left left-66"
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            >
               {{ item.EmployeeCode }}
             </td>
-            <td>{{ item.EmployeeName }}</td>
-            <td>{{ item.Gender }}</td>
-            <td class="text-right">
+            <!-- Tên NV -->
+            <td
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            >
+              {{ item.EmployeeName }}
+            </td>
+            <!-- Giới tính -->
+            <td
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            >
+              {{ item.GenderName }}
+            </td>
+            <!-- Ngày sinh -->
+            <td
+              class="text-center"
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            >
               {{ $fn.fnFormatDate(item.DateOfBirth) }}
             </td>
-            <td>{{ item.IdentityNumber }}</td>
-            <td>{{ item.EmployeePosition }}</td>
-            <td></td>
-            <td>{{ item.BankAccountNumber }}</td>
-            <td class="text-right">
+            <!-- Số CMND -->
+            <td
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            >
+              {{ item.IdentityNumber }}
+            </td>
+            <!-- Chức danh -->
+            <td
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            >
+              {{ item.EmployeePosition }}
+            </td>
+            <!-- Tên đơn vị -->
+            <td
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            ></td>
+            <!-- Số tài khoản -->
+            <td
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            >
+              {{ item.BankAccountNumber }}
+            </td>
+            <!-- Tên ngân hàng -->
+            <td
+              class="text-right"
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            >
               {{ item.BankName }}
             </td>
-            <td>{{ item.BankProvinceName }}</td>
-            <td class="sticky-right" @click="onDeleteEmployee(item.EmployeeId)">
+            <!-- Chi nhánh tài khoản ngân hàng -->
+            <td
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            >
+              {{ item.BankProvinceName }}
+            </td>
+            <!--Chức năng -->
+            <td
+              class="sticky-right"
+              @click="onDeleteEmployee(item.EmployeeId)"
+              :class="{
+                selected: selectedUser.indexOf(item.EmployeeId) != -1,
+              }"
+            >
               Sửa
             </td>
             <td class="td-white-30"></td>
@@ -102,7 +194,7 @@
       </div>
       <!-- </div> -->
     </div>
-    <Detail/>
+    <Detail :employee="dataRow" :department="department" :title="title"/>
   </div>
 </template>
 
@@ -114,16 +206,36 @@ export default {
   components: {
     Detail,
   },
+  computed: {
+    sortedEmployees: function() {
+      return [...this.dataEmployee].sort((a, b) => {
+        let modifier = 1;
+        if (this.currentSortDir === "desc") modifier = -1;
+        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+        return 0;
+      });
+    },
+  },
   data() {
     return {
       API_HOST: this.$Const.API_HOST,
       dataEmployee: [],
+      selectedUser: [],
+      dataRow: {},
+      department: [],
+      title:""
     };
   },
   methods: {
+    /**
+     * Lấy dữ liệu nhân viên
+     * CreatedBy:ntquan(13/05/2021)
+     */
     onLoadEmployee() {
       var me = this;
-      var url = me.API_HOST + "/api/v1/Employees";
+      var url =
+        me.API_HOST + "/api/v1/Employees/paging?pageIndex=1&pageSize=25";
       axios
         .get(url)
         .then((response) => {
@@ -134,9 +246,109 @@ export default {
           console.log(err);
         });
     },
+
+    /**
+     * Lấy mã nhân viên mới
+     * CreatedBy:ntquan(13/05/2021)
+     */
+    async genEmployeeCode() {
+      let url = this.API_HOST + "/api/v1/Employees/NewEmployeeCode";
+      var response = await axios.get(url);
+      return response.data;
+    },
+
+    /**
+     * Hiển thị thêm mới nhân viên
+     * CreatedBy:ntquan(13/05/2021)
+     */
+    async onAddEmployee() {
+      var me= this;
+      me.dataRow.EmployeeCode= await me.genEmployeeCode();
+      me.title = "Thêm mới nhân viên";
+      this.$store.commit("toggleDialog");
+    },
+
+    /**
+     * Lấy danh sách phòng ban
+     *
+     */
+    async getDepartment() {
+      var me = this;
+      let url = `${me.API_HOST}/api/v1/Departments`;
+      const response = await axios.get(url);
+      me.department=response.data
+    },
+    /**
+     * Hiển thị thông tin nhân viên
+     * CreatedBy:ntquan(13/05/2021)
+     */
+    async rowdblClick(item) {
+      var me = this;
+      var res= await me.onGetEmployeeById(item.EmployeeId);
+      if (res.DateOfBirth != null)
+        res.DateOfBirth = me.$fn.fnFormatDateInput(res.DateOfBirth);
+      if (res.IdentityDate != null)
+        res.IdentityDate = me.$fn.fnFormatDateInput(item.IdentityDate);
+      me.dataRow = res;
+      me.title = "THÔNG TIN NHÂN VIÊN";
+      this.$store.commit("toggleDialog");
+      console.log(this.$fn.cloneObject(res));
+    },
+
+    async onGetEmployeeById(id) {
+      var me= this;
+      const url=`${me.API_HOST}/api/v1/Employees/${id}`;
+      const response=await axios.get(url);
+      return response.data
+    },
+    /**
+     * Thay đổi background row
+     * @param id Id nhân viên
+     * CreatedBy:ntquan(13/05/2021)
+     */
+    highlight(id) {
+      var me = this;
+      var elIndex = me.selectedUser.indexOf(id);
+      var countEmployee = me.dataEmployee.length;
+      var countSelectedUser =
+        me.selectedUser.indexOf("All") != -1
+          ? me.selectedUser.length - 1
+          : me.selectedUser.length;
+      if (elIndex != -1) {
+        me.selectedUser = me.selectedUser.filter(function(e) {
+          return e !== id && e != "All";
+        });
+        this.$refs.selectAll.checked = false;
+      } else {
+        me.selectedUser.push(id);
+        if (countSelectedUser + 1 == countEmployee) {
+          me.selectedUser.push("All");
+          this.$refs.selectAll.checked = true;
+        }
+      }
+    },
+
+    /**
+     * Thay đổi background tất cả row
+     * CreatedBy:ntquan(13/05/2021)
+     */
+    selectAll() {
+      var me = this;
+      if (me.selectedUser.indexOf("All") != -1) {
+        me.selectedUser = [];
+      } else {
+        me.selectedUser = [];
+        me.dataEmployee.forEach((element) => {
+          me.selectedUser.push(element.EmployeeId);
+        });
+        me.selectedUser.push("All");
+      }
+    },
   },
+
   created() {
     this.onLoadEmployee();
+    this.getDepartment()
   },
   mounted() {},
 };
@@ -221,6 +433,10 @@ export default {
   min-width: 200px;
 }
 
+.right-5 {
+  right: 5px;
+}
+
 table {
   display: grid;
   min-width: 100%;
@@ -292,7 +508,7 @@ td:last-child {
   justify-content: center;
   cursor: pointer;
 }
-tr:hover > td:not(:first-child, :last-child, :nth-child(14)) {
+tr:hover > td:not(:first-child, :last-child, :nth-child(14), .selected) {
   background: #f3f8f8 !important;
 }
 </style>
