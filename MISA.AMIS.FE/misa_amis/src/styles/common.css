@@ -4,7 +4,7 @@
   align-items: center;
   background-color: #2ca01c;
   border-radius: 4px;
-  height: 40px;
+  height: 36px;
   font-size: 13px;
   color: #ffffff;
   padding: 8px 20px;
@@ -27,7 +27,7 @@
 .m-btn-second {
   border: 1px solid #8d9096;
   border-radius: 3px;
-  height: 40px;
+  height: 36px;
   font-size: 13px;
   color: #111;
   padding: 8px 20px;
@@ -69,6 +69,23 @@
   background-repeat: no-repeat;
 }
 
+.icon-warning-alert {
+  width: 48px;
+  height: 48px;
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -592px -456px;
+}
+
+.icon-question-mark{
+  width: 48px;
+  height: 48px;
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -826px -456px;
+}
+
+.icon-error{
+  width: 48px;
+  height: 48px;
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -24px -954px;
+}
 /*--------------------input--------------------*/
 .m-item-input {
   display: flex;
@@ -104,7 +121,7 @@ select:focus {
   border: 1px solid #babec5;
   border-radius: 2px;
   height: 30px;
-  padding-left: 16px;
+  padding-left: 8px;
 }
 
 .m-input-error {
@@ -156,9 +173,9 @@ input[type="checkbox"]:checked:after {
 }
 
 input[type="radio"] {
-    -ms-transform: scale(1.5); /* IE 9 */
-    -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
-    transform: scale(1.5);
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
+  transform: scale(1.5);
 }
 /*-----------------------paging---------------------*/
 
@@ -382,7 +399,7 @@ input[type="radio"] {
   border: none;
   padding: 0px !important;
 }
-
+/*Margin Padding*/
 .mr-4 {
   margin-right: 1em;
 }
@@ -399,8 +416,8 @@ input[type="radio"] {
   margin-top: 4px;
 }
 
-.p-l-16{
-    padding-left: 16px;
+.p-l-16 {
+  padding-left: 16px;
 }
 
 .pd-b-12 {
@@ -415,36 +432,41 @@ input[type="radio"] {
   padding-right: 6px;
 }
 
-.p-t-10{
-    padding-top: 10px;
+.p-t-10 {
+  padding-top: 10px;
 }
 
 .m-r-10 {
   margin-right: 10px;
 }
 
-.w-1\/4{
-    width: 25% !important;
+/*Width*/
+.w-1\/4 {
+  width: 25% !important;
 }
 
-.w-1\/2{
-    width: 50% !important;
+.w-1\/2 {
+  width: 50% !important;
 }
 
-.w-1\/3{
-    width: 33.33% !important;
+.w-1\/3 {
+  width: 33.33% !important;
 }
 
-.w-2\/3{
-    width: 66.66% !important;
+.w-2\/3 {
+  width: 66.66% !important;
 }
 
-.w-2\/5{
-    width: 40% !important;
+.w-2\/5 {
+  width: 40% !important;
 }
 
-.w-3\/5{
-    width: 60% !important;
+.w-3\/5 {
+  width: 60% !important;
+}
+
+.w-full{
+  width: 100% !important;
 }
 /*----------------------hr----------------------*/
 .hr-group-label {
@@ -462,10 +484,10 @@ input[type="radio"] {
   position: relative;
 }
 
-.mess-line{
-    height: 1px;
-    background: #b8bcc3;
-    margin-bottom: 20px;
+.mess-line {
+  height: 1px;
+  background: #b8bcc3;
+  margin-bottom: 20px;
 }
 /*----------------------flex----------------------*/
 .m-row {
@@ -500,3 +522,12 @@ input[type="radio"] {
 .flex-column {
   flex-direction: column;
 }
+
+.justify-between{
+  justify-content: space-between;
+}
+
+.justify-center{
+  justify-content: center;
+}
+

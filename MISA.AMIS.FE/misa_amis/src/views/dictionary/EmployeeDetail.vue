@@ -257,16 +257,52 @@
         </div>
       </div>
     </div>
+    <!--  -->
+    <Alert
+    :isShow="isShowAlert"
+    :message="messageAlert"
+    :cls="iconCls"
+    >
+    <div class="flex w-full justify-center">
+    <button class="m-btn-second" @click="onClose">Đóng</button>
+    </div>
+    </Alert>
+    <!--  -->
+
+     <AlertConfirm
+    :isShow="isShowAlertConfirm"
+    :message="messageAlert"
+    :cls="iconCls"
+    >
+    <div class="flex w-full justify-between">
+
+    <button class="m-btn" @click="onClose">Đóng</button>
+    <button class="m-btn">Đồng ý</button>
+    </div>
+    </AlertConfirm>
+
   </div>
 </template>
 
 <script>
+//import axios from "axios";
+import Alert from "../../components/Alert/Alert"
+import AlertConfirm from "../../components/Alert/Alert"
+
 export default {
   name: "Detail",
+  components:{
+    Alert,
+    AlertConfirm
+  },
   props: ["employee", "department", "title"],
   data() {
     return {
       // isShow:,
+      isShowAlert:false,
+      isShowAlertConfirm:false,
+      messageAlert:'',
+      iconCls:'',
       API_HOST: this.$Const.API_HOST,
       dataEmployee: [],
     };
@@ -276,7 +312,11 @@ export default {
       this.fnSave();
     },
 
-    onSaveAndNew() {},
+    onSaveAndNew() {
+      this.isShowAlertConfirm=true,
+      this.messageAlert="Tên nhân viên không được để trống",
+      this.iconCls="icon-warning-alert"
+    },
 
     fnSave() {
       var me = this;

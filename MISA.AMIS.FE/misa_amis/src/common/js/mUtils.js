@@ -14,6 +14,7 @@ export const func = {
     num += "";
 
     var p = num.split(".");
+    // acc: tích luỹ cộng dồn
     return p[0]
       .split("")
       .reverse()

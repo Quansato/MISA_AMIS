@@ -493,7 +493,7 @@ th.sticky-left {
 
 th {
   position: sticky;
-  top: 78px;
+  top: 72px;
   background-color: #ffffff;
   padding: 5px 10px 3px;
   border-right: 1px solid #c7c7c7;

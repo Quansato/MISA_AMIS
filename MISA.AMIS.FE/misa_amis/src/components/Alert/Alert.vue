@@ -1,13 +1,14 @@
 <template>
-  <div class="alert">
+  <div class="alert" v-if="isShow">
     <div class="alert-content">
       <div class="alert-body flex items-center">
-        <div class="alert-icon"></div>
-        <p class="p-l-16">Tên không được để trống</p>
+        <div :class="cls"></div>
+        <p class="p-l-16">{{ message }}</p>
       </div>
       <div class="mess-line"></div>
       <div class="alert-footer flex">
-        <button class="m-btn" @click="onClose">Đóng</button>
+        <slot> </slot>
+        <!-- <button class="m-btn" @click="onClose">Đóng</button> -->
       </div>
     </div>
   </div>
@@ -18,9 +19,10 @@ import { EventBus } from "../../main";
 
 export default {
   name: "DialogConfirm",
+  props: ["isShow", "message", "cls"],
   data() {
     return {
-      isShow: false,
+      //  isShow: false,
       alert: "",
     };
   },
@@ -96,10 +98,10 @@ export default {
 .alert .alert-content .alert-footer {
   height: 36px;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
-.alert .alert-content .alert-footer button {
+/* .alert .alert-content .alert-footer button {
   height: 36px;
-}
+} */
 </style>
