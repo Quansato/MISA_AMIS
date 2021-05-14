@@ -25,6 +25,12 @@ namespace MISA.AMIS.Core.Services
             return isExist;
         }
 
+        public IEnumerable<Employee> GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter)
+        {
+            var entities = _employeeReponsitory.GetEmployeeFilter(pageIndex, pageSize,employeeFilter);
+            return entities;
+        }
+
         public string GetNewEmployeeCode()
         {
             var code = _employeeReponsitory.GetMaxEmployeeCode();

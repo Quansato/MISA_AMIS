@@ -51,5 +51,12 @@ namespace MISA.AMIS.WebApp.Controllers
             var isExist = _employeeService.CheckEmployeeCodeExits(employeeCode);
             return Ok(isExist);
         }
+
+        [HttpGet("employeeFilter")]
+        public IActionResult GetEmployeeFilter(int pageIndex,int pageSize,string employeeFilter)
+        {
+            var entities = _employeeService.GetEmployeeFilter(pageIndex, pageSize, employeeFilter);
+            return Ok(entities);
+        }
     }
 }

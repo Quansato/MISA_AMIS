@@ -28,7 +28,7 @@
       <table border="0" cellspacing="0" width="100%" id="tblEmployees">
         <thead>
           <th class="td-left-16"></th>
-          <th class="sticky-left left-16">
+          <th class="sticky-left left-16 justify-center">
             <input
               type="checkbox"
               name=""
@@ -61,7 +61,7 @@
             <td class="td-left-16"></td>
             <!-- checkbox -->
             <td
-              class="sticky-left left-16"
+              class="sticky-left left-16 justify-center"
               :class="{
                 selected: selectedUser.indexOf(item.EmployeeId) != -1,
               }"
@@ -159,20 +159,17 @@
             </td>
             <!--Chức năng -->
             <td
-              class="sticky-right flex text-center items-center"
-              @click="onDeleteEmployee(item.EmployeeId)"
+              class="sticky-right flex text-center items-center justify-center"
               :class="{
                 selected: selectedUser.indexOf(item.EmployeeId) != -1,
               }"
             >
-              <button>Sửa</button>
-              <div class="icon-arrow-up"></div>
-              <div class="m-dropdown--menu">
-                <ul>
-                  <li>Nhân bản</li>
-                  <li>Xoá</li>
-                  <li>Ngưng sử dụng</li>
-                </ul>
+              <button class="btn-edit" @click="rowdblClick(item)">Sửa</button>
+              <div
+                class="button-arrow flex justify-center"
+                @click="openContextMenu($event, item)"
+              >
+                <div class="icon-arrow-up"></div>
               </div>
             </td>
             <td class="td-white-30"></td>
@@ -203,12 +200,28 @@
       </div>
       <!-- </div> -->
     </div>
+
+    <Alert :isShow="isShowAlert" :message="messageAlert" :cls="iconCls">
+      <div class="flex w-full justify-between">
+        <button class="m-btn-second" @click="onCloseAlert">Không</button>
+        <button class="m-btn" @click="onDeleteEmployee">Có</button>
+      </div>
+    </Alert>
+
     <Detail
       :employee="dataRow"
       :department="department"
       :title="title"
       @onLoad="onLoadEmployee"
     />
+
+    <context-menu :display="showContextMenu" ref="menu">
+      <ul>
+        <li>Nhân bản</li>
+        <li @click="openConfirmDelete">Xoá</li>
+        <li>Ngưng sử dụng</li>
+      </ul>
+    </context-menu>
   </div>
 </template>
 
@@ -216,10 +229,15 @@
 import axios from "axios";
 import Detail from "./EmployeeDetail";
 import BaseLoading from "../../components/base/BaseLoading";
+import ContextMenu from "../../components/base/ContextMenu";
+import Alert from "../../components/Alert/Alert";
+
 export default {
   components: {
     Detail,
     BaseLoading,
+    ContextMenu,
+    Alert,
   },
   computed: {
     sortedEmployees: function() {
@@ -236,14 +254,28 @@ export default {
     return {
       API_HOST: this.$Const.API_HOST,
       isLoading: false,
+      showContextMenu: false,
+      isShowAlert: false,
+      messageAlert: "",
+      iconCls: "",
       dataEmployee: [],
       selectedUser: [],
+      dataContext: {},
       dataRow: {},
       department: [],
       title: "",
     };
   },
   methods: {
+    /**
+     * Hiện context menu
+     * CreatedBy: ntquan(14/05/2021)
+     */
+    openContextMenu(e, item) {
+      this.dataContext = {};
+      this.dataContext = item;
+      this.$refs.menu.open(e);
+    },
     /**
      * Lấy dữ liệu nhân viên
      * CreatedBy:ntquan(13/05/2021)
@@ -313,12 +345,31 @@ export default {
       this.$store.commit("toggleDialog");
       console.log(this.$fn.cloneObject(res));
     },
-
+    /**
+     *
+     */
     async onGetEmployeeById(id) {
       var me = this;
       const url = `${me.API_HOST}/api/v1/Employees/${id}`;
       const response = await axios.get(url);
       return response.data;
+    },
+    
+    openConfirmDelete() {
+      var me = this;
+      me.$refs.menu.close();
+      me.isShowAlert = true;
+      me.messageAlert = `Bạn có thực sự muốn xoá Nhân viên <${me.dataContext.EmployeeCode}> không?`;
+      me.iconCls = "icon-warning-alert";
+    },
+
+    async onDeleteEmployee() {
+      var me = this;
+      var url = `${me.API_HOST}/api/v1/Employees/${me.dataContext.EmployeeId}`;
+      const res = await axios.delete(url);
+      me.isShowAlert=false;
+      me.onLoadEmployee();
+      console.log(res);
     },
     /**
      * Thay đổi background row
@@ -362,6 +413,15 @@ export default {
         });
         me.selectedUser.push("All");
       }
+    },
+
+    /**
+     *
+     */
+    onCloseAlert() {
+      this.isShowAlert = false;
+      this.messageAlert = "";
+      this.iconCls = "";
     },
   },
 
@@ -456,16 +516,44 @@ export default {
   right: 5px;
 }
 
-.m-dropdown--menu{
-  position:absolute;
+.m-dropdown--menu {
+  position: absolute;
   background-color: #fff;
 }
-
-.m-dropdown--menu ul li{
-  list-style: none;
+/*  */
+ul {
+  width: 125px;
+  padding: 5px 0px;
 }
 
+ul li {
+  list-style: none;
+  padding: 5px 10px;
+}
 
+ul li:hover {
+  background-color: #f3f8f8;
+  color: #08bf1e;
+}
+
+.button-arrow {
+  width: 26px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.btn-edit {
+  height: 36px;
+  width: 40px;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #7979de;
+}
+.btn-edit:hover {
+  background-color: #f3f8f8;
+}
 
 table {
   display: grid;
@@ -493,11 +581,13 @@ tr {
 table th,
 td {
   border-bottom: 1px solid #e8e8e8;
-  padding: 15px 16px;
+  padding: 5px 10px;
   text-align: left;
   /* overflow: hidden;
   text-overflow: ellipsis;*/
   white-space: nowrap;
+  align-items: center;
+  display: flex;
 }
 
 td.sticky-right {
@@ -538,7 +628,8 @@ td:last-child {
   justify-content: center;
   cursor: pointer;
 }
-tr:hover > td:not(:first-child, :last-child, :nth-child(14), .selected) {
+tr:hover > td:not(:first-child, :last-child, :nth-child(14), .selected),
+tr:hover > td .btn-edit {
   background: #f3f8f8 !important;
 }
 </style>

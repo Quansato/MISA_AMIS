@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MISA.AMIS.Core.Interfaces.Repository
 {
-    public interface IEmployeeRepository:IBaseRepository<Employee>
+    public interface IEmployeeRepository : IBaseRepository<Employee>
     {
         /// <summary>
         /// Lấy dữ liệu phân trang
@@ -40,5 +40,7 @@ namespace MISA.AMIS.Core.Interfaces.Repository
         /// <returns>mã nhân viên</returns>
         /// CreatedBy: ntquan(11/05/2021)   
         string GetMaxEmployeeCode();
+
+        IEnumerable<Employee> GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter);
     }
 }

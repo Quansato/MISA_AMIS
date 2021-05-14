@@ -32,6 +32,17 @@ namespace MISA.AMIS.Infrastructure.Repository
             return res;
         }
 
+        public IEnumerable<Employee> GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter)
+        {
+            var storeName = $"Proc_EmployeeFilter";
+            DynamicParameters dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add($"@pageIndex", pageIndex);
+            dynamicParameters.Add($"@pageSize", pageSize);
+            dynamicParameters.Add($"@employeeFilter", employeeFilter);
+            var entity = _dbConnection.Query<Employee>(storeName, param: dynamicParameters, commandType: CommandType.StoredProcedure);
+            return entity;
+        }
+
         public string GetMaxEmployeeCode()
         {
             var storeName = $"Proc_GetMaxEmployeeCode";

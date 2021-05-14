@@ -32,5 +32,15 @@ namespace MISA.AMIS.Core.Interfaces.Service
         /// <returns>true - nếu đã có; false - nếu chưa có</returns>
         /// CreatedBy: ntquan(11/05/2021)
         bool CheckEmployeeCodeExits(string employeeCode);
+
+        /// <summary>
+        /// Tìm kiếm nhân viên
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="employeeFilter"></param>
+        /// <returns></returns>
+        IEnumerable<Employee> GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter);
+
     }
 }
