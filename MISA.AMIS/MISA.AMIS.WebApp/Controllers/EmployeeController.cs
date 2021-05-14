@@ -18,17 +18,38 @@ namespace MISA.AMIS.WebApp.Controllers
         {
             _employeeService = employeeService;
         }
+
+        /// <summary>
+        /// Phân trang dữ liệu
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        /// CreatedBy:ntquan(11/05/2021)
         [HttpGet("paging")]
         public IActionResult GetPaging(int pageIndex, int pageSize)
         {
             var entities = _employeeService.GetPaging(pageIndex, pageSize);
             return Ok(entities);
         }
+
+        /// <summary>
+        /// Lấy mã nhân viên mới
+        /// </summary>
+        /// <returns>Mã nhân viên mới</returns>
+        /// CreatedBy:ntquan(11/055/2021)
         [HttpGet("NewEmployeeCode")]
         public IActionResult GetNewEmployeeCode()
         {
             var entities = _employeeService.GetNewEmployeeCode();
             return Ok(entities);
+        }
+
+        [HttpGet("CheckEmployeeCodeExist")]
+        public IActionResult CheckEmployeeCodeExist(string employeeCode)
+        {
+            var isExist = _employeeService.CheckEmployeeCodeExits(employeeCode);
+            return Ok(isExist);
         }
     }
 }

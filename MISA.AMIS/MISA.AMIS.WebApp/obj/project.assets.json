@@ -1024,19 +1024,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ASUS\\.nuget\\packages\\": {}
+    "C:\\Users\\ntquan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\MISA_AMIS\\MISA.AMIS\\MISA.AMIS.WebApp\\MISA.AMIS.WebApp.csproj",
+      "projectUniqueName": "C:\\Users\\ntquan\\Desktop\\mf796-ntquan\\MISA.AMIS\\MISA.AMIS.WebApp\\MISA.AMIS.WebApp.csproj",
       "projectName": "MISA.AMIS.WebApp",
-      "projectPath": "C:\\Users\\ASUS\\Desktop\\MISA_AMIS\\MISA.AMIS\\MISA.AMIS.WebApp\\MISA.AMIS.WebApp.csproj",
-      "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ASUS\\Desktop\\MISA_AMIS\\MISA.AMIS\\MISA.AMIS.WebApp\\obj\\",
+      "projectPath": "C:\\Users\\ntquan\\Desktop\\mf796-ntquan\\MISA.AMIS\\MISA.AMIS.WebApp\\MISA.AMIS.WebApp.csproj",
+      "packagesPath": "C:\\Users\\ntquan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ntquan\\Desktop\\mf796-ntquan\\MISA.AMIS\\MISA.AMIS.WebApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ntquan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1050,11 +1050,11 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\ASUS\\Desktop\\MISA_AMIS\\MISA.AMIS\\MISA.AMIS.Core\\MISA.AMIS.Core.csproj": {
-              "projectPath": "C:\\Users\\ASUS\\Desktop\\MISA_AMIS\\MISA.AMIS\\MISA.AMIS.Core\\MISA.AMIS.Core.csproj"
+            "C:\\Users\\ntquan\\Desktop\\mf796-ntquan\\MISA.AMIS\\MISA.AMIS.Core\\MISA.AMIS.Core.csproj": {
+              "projectPath": "C:\\Users\\ntquan\\Desktop\\mf796-ntquan\\MISA.AMIS\\MISA.AMIS.Core\\MISA.AMIS.Core.csproj"
             },
-            "C:\\Users\\ASUS\\Desktop\\MISA_AMIS\\MISA.AMIS\\MISA.AMIS.Infrastructure\\MISA.AMIS.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\ASUS\\Desktop\\MISA_AMIS\\MISA.AMIS\\MISA.AMIS.Infrastructure\\MISA.AMIS.Infrastructure.csproj"
+            "C:\\Users\\ntquan\\Desktop\\mf796-ntquan\\MISA.AMIS\\MISA.AMIS.Infrastructure\\MISA.AMIS.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\ntquan\\Desktop\\mf796-ntquan\\MISA.AMIS\\MISA.AMIS.Infrastructure\\MISA.AMIS.Infrastructure.csproj"
             }
           }
         }
@@ -1100,7 +1100,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }

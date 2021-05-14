@@ -19,6 +19,12 @@ namespace MISA.AMIS.Core.Services
             _employeeReponsitory = employeeRepository;
         }
 
+        public bool CheckEmployeeCodeExits(string employeeCode)
+        {
+            var isExist = _employeeReponsitory.CheckEmployeeCodeExits(employeeCode);
+            return isExist;
+        }
+
         public string GetNewEmployeeCode()
         {
             var code = _employeeReponsitory.GetMaxEmployeeCode();

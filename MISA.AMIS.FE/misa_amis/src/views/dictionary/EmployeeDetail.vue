@@ -258,69 +258,98 @@
       </div>
     </div>
     <!--  -->
-    <Alert
-    :isShow="isShowAlert"
-    :message="messageAlert"
-    :cls="iconCls"
-    >
-    <div class="flex w-full justify-center">
-    <button class="m-btn-second" @click="onClose">Đóng</button>
-    </div>
+    <Alert :isShow="isShowAlert" :message="messageAlert" :cls="iconCls">
+      <div class="flex w-full justify-center">
+        <button class="m-btn" @click="onCloseAlert">Đóng</button>
+      </div>
     </Alert>
     <!--  -->
 
-     <AlertConfirm
-    :isShow="isShowAlertConfirm"
-    :message="messageAlert"
-    :cls="iconCls"
+    <AlertConfirm
+      :isShow="isShowAlertConfirm"
+      :message="messageAlert"
+      :cls="iconCls"
     >
-    <div class="flex w-full justify-between">
-
-    <button class="m-btn" @click="onClose">Đóng</button>
-    <button class="m-btn">Đồng ý</button>
-    </div>
+      <div class="flex w-full justify-between">
+        <button class="m-btn-second" @click="onClose">Đóng</button>
+        <button class="m-btn">Đồng ý</button>
+      </div>
     </AlertConfirm>
-
   </div>
 </template>
 
 <script>
-//import axios from "axios";
-import Alert from "../../components/Alert/Alert"
-import AlertConfirm from "../../components/Alert/Alert"
+import axios from "axios";
+import Alert from "../../components/Alert/Alert";
+import AlertConfirm from "../../components/Alert/Alert";
 
 export default {
   name: "Detail",
-  components:{
+  components: {
     Alert,
-    AlertConfirm
+    AlertConfirm,
   },
   props: ["employee", "department", "title"],
   data() {
     return {
       // isShow:,
-      isShowAlert:false,
-      isShowAlertConfirm:false,
-      messageAlert:'',
-      iconCls:'',
+      isShowAlert: false,
+      isShowAlertConfirm: false,
+      messageAlert: "",
+      iconCls: "",
       API_HOST: this.$Const.API_HOST,
       dataEmployee: [],
     };
   },
   methods: {
+
+    onLoadEmployee() {
+      this.$emit("onLoad");
+    },
     onSave() {
       this.fnSave();
     },
 
     onSaveAndNew() {
-      this.isShowAlertConfirm=true,
-      this.messageAlert="Tên nhân viên không được để trống",
-      this.iconCls="icon-warning-alert"
+      this.isShowAlertConfirm = true;
+      this.messageAlert = "Tên nhân viên không được để trống";
+      this.iconCls = "icon-warning-alert";
     },
 
-    fnSave() {
+    async fnSave() {
       var me = this;
-      me.validateToSave();
+      var countErr = 0;
+      var url = "";
+      countErr += me.validateToSave();
+      if (!me.employee.EmployeeId)
+        countErr += await me.checkEmployeeCodeExist(me.employee.EmployeeCode);
+      if (countErr != 0) return;
+      //
+
+      if (me.employee.EmployeeId) {
+        //cập nhật
+        url = `${me.API_HOST}/api/v1/Employees?entityId=${me.employee.EmployeeId}`;
+        const response = await axios.put(url, me.employee);
+        //hiện thông báo
+        if (response.status == me.$Const.DATA_UPDATED) {
+          console.log("Cập nhật thành công");
+          me.onClose();
+          me.onLoadEmployee()
+        } else {
+          console.log("Cập nhật thất bại");
+        }
+      } else {
+        //Thêm mới
+        url = `${me.API_HOST}/api/v1/Employees`;
+        const response = await axios.post(url, me.employee);
+        if (response.status == me.$Const.DATA_CREATED) {
+          console.log("Thêm mới thành công");
+          me.onClose();
+          me.onLoadEmployee()
+        } else {
+          console.log("Thêm mới thất bại");
+        }
+      }
     },
 
     /**
@@ -328,7 +357,8 @@ export default {
      * CreateBy:ntquan(21/04/2021)
      */
     validateToSave() {
-      let err = 0;
+      var me = this;
+      var isError = 0;
       //kiểm tra các trường rỗng
       var obj = [
         {
@@ -344,34 +374,34 @@ export default {
           text: "Đơn vị không được để trống",
         },
       ];
-      err += this.checkBlankText(obj);
-      if (err != 0) {
-        //this.$toastr.w("Cập nhật đầy đủ thông tin yêu cầu");
-      }
+      me.checkBlankText(obj);
       //kiểm tra giá trị email hợp lệ
-      const errEmail = this.checkEmailValid();
-      if (errEmail != 0) this.$toastr.w("Email sai định dạng");
-
-      err += errEmail;
-      return err;
+      me.checkEmailValid();
+      //me.checkEmployeeCodeExist(me.employee.EmployeeCode);
+      if (me.messageAlert != "") {
+        me.isShowAlert = true;
+        me.iconCls = "icon-error";
+        isError += 1;
+      }
+      return isError;
     },
 
     /**
      * Check email validate
      */
     checkEmailValid() {
-      let isValid = 0;
-      var email = this.$refs["Email"].value;
-      if (!this.$fn.validateEmail(email) && email != "") {
-        this.$refs["Email"].classList.add("isValid");
-        this.$refs["Email"].setAttribute("title", "Email sai định dạng");
-        this.$refs["Email"].focus();
-        isValid = 1;
+      var me = this;
+      var email = me.$refs["Email"].value;
+      if (!me.$fn.validateEmail(email) && email != "") {
+        me.$refs["Email"].classList.add("isValid");
+        me.$refs["Email"].setAttribute("title", "Email không đúng định dạng");
+        me.messageAlert +=
+          me.messageAlert == "" ? "Email không đúng định dạng" : "";
+        me.$refs["Email"].focus();
       } else if (email != "") {
-        this.$refs["Email"].classList.remove("isValid");
-        this.$refs["Email"].setAttribute("title", "");
+        me.$refs["Email"].classList.remove("isValid");
+        me.$refs["Email"].setAttribute("title", "");
       }
-      return isValid;
     },
 
     /**
@@ -381,28 +411,66 @@ export default {
      */
     checkBlankText(obj) {
       var me = this;
-      var msg = "";
       obj.forEach((element) => {
         if (me.$refs[element.key].value == "") {
           this.$refs[element.key].classList.add("isValid");
           this.$refs[element.key].setAttribute("title", element.text);
-          msg += msg == "" ? element.text : "";
+          me.messageAlert += me.messageAlert == "" ? element.text : "";
         } else {
           this.$refs[element.key].classList.remove("isValid");
           this.$refs[element.key].setAttribute("title", "");
         }
       });
-      console.log(msg);
     },
 
+    /**
+     *
+     */
+    async checkEmployeeCodeExist(employeeCode) {
+      var me = this;
+      var isExist = 0;
+      var url = `${this.API_HOST}/api/v1/Employees/CheckEmployeeCodeExist?employeeCode=${employeeCode}`;
+      var res = await axios.get(url);
+      if (res.data) {
+        me.messageAlert +=
+          me.messageAlert == ""
+            ? `Mã nhân viên <${employeeCode}> đã tồn tại trong hệ thống, vui lòng kiểm tra lại`
+            : "";
+        me.isShowAlert = true;
+        me.iconCls = "icon-error";
+        isExist += 1;
+      }
+      return isExist;
+    },
+
+
+    /**
+     * 
+     */
+    onCloseAlert() {
+      this.isShowAlert = false;
+      this.messageAlert = "";
+      this.iconCls = "";
+    },
+
+    /**
+     * Đóng form
+     * CreatedBy:ntquan(11/05/2021)
+     */
     onClose() {
       this.$store.commit("toggleDialog");
     },
+
+
   },
   created() {
     // this.onLoadEmployee();
   },
-  mounted() {},
+  mounted() {
+    if (this.$refs.EmployeeCode) {
+      this.$refs.EmployeeCode.focus();
+    }
+  },
   computed: {
     isShow() {
       return this.$store.getters.getIsShow;

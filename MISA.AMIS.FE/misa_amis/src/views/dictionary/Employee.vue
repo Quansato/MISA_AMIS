@@ -1,5 +1,6 @@
 <template>
   <div class="content">
+    <BaseLoading :showLoading="isLoading" />
     <!-- header content -->
     <div class="content__header flex items-center">
       <p class="content__header--title">Nhân viên</p>
@@ -158,13 +159,21 @@
             </td>
             <!--Chức năng -->
             <td
-              class="sticky-right"
+              class="sticky-right flex text-center items-center"
               @click="onDeleteEmployee(item.EmployeeId)"
               :class="{
                 selected: selectedUser.indexOf(item.EmployeeId) != -1,
               }"
             >
-              Sửa
+              <button>Sửa</button>
+              <div class="icon-arrow-up"></div>
+              <div class="m-dropdown--menu">
+                <ul>
+                  <li>Nhân bản</li>
+                  <li>Xoá</li>
+                  <li>Ngưng sử dụng</li>
+                </ul>
+              </div>
             </td>
             <td class="td-white-30"></td>
             <td class="td-grey-30"></td>
@@ -194,17 +203,23 @@
       </div>
       <!-- </div> -->
     </div>
-    <Detail :employee="dataRow" :department="department" :title="title"/>
+    <Detail
+      :employee="dataRow"
+      :department="department"
+      :title="title"
+      @onLoad="onLoadEmployee"
+    />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import Detail from "./EmployeeDetail";
-
+import BaseLoading from "../../components/base/BaseLoading";
 export default {
   components: {
     Detail,
+    BaseLoading,
   },
   computed: {
     sortedEmployees: function() {
@@ -220,11 +235,12 @@ export default {
   data() {
     return {
       API_HOST: this.$Const.API_HOST,
+      isLoading: false,
       dataEmployee: [],
       selectedUser: [],
       dataRow: {},
       department: [],
-      title:""
+      title: "",
     };
   },
   methods: {
@@ -234,12 +250,14 @@ export default {
      */
     onLoadEmployee() {
       var me = this;
+      me.isLoading = true;
       var url =
         me.API_HOST + "/api/v1/Employees/paging?pageIndex=1&pageSize=25";
       axios
         .get(url)
         .then((response) => {
           me.dataEmployee = response.data;
+          me.isLoading = false;
           console.log(me.dataEmployee);
         })
         .catch((err) => {
@@ -262,8 +280,9 @@ export default {
      * CreatedBy:ntquan(13/05/2021)
      */
     async onAddEmployee() {
-      var me= this;
-      me.dataRow.EmployeeCode= await me.genEmployeeCode();
+      var me = this;
+      me.dataRow = {};
+      me.dataRow.EmployeeCode = await me.genEmployeeCode();
       me.title = "Thêm mới nhân viên";
       this.$store.commit("toggleDialog");
     },
@@ -276,7 +295,7 @@ export default {
       var me = this;
       let url = `${me.API_HOST}/api/v1/Departments`;
       const response = await axios.get(url);
-      me.department=response.data
+      me.department = response.data;
     },
     /**
      * Hiển thị thông tin nhân viên
@@ -284,7 +303,7 @@ export default {
      */
     async rowdblClick(item) {
       var me = this;
-      var res= await me.onGetEmployeeById(item.EmployeeId);
+      var res = await me.onGetEmployeeById(item.EmployeeId);
       if (res.DateOfBirth != null)
         res.DateOfBirth = me.$fn.fnFormatDateInput(res.DateOfBirth);
       if (res.IdentityDate != null)
@@ -296,10 +315,10 @@ export default {
     },
 
     async onGetEmployeeById(id) {
-      var me= this;
-      const url=`${me.API_HOST}/api/v1/Employees/${id}`;
-      const response=await axios.get(url);
-      return response.data
+      var me = this;
+      const url = `${me.API_HOST}/api/v1/Employees/${id}`;
+      const response = await axios.get(url);
+      return response.data;
     },
     /**
      * Thay đổi background row
@@ -348,7 +367,7 @@ export default {
 
   created() {
     this.onLoadEmployee();
-    this.getDepartment()
+    this.getDepartment();
   },
   mounted() {},
 };
@@ -436,6 +455,17 @@ export default {
 .right-5 {
   right: 5px;
 }
+
+.m-dropdown--menu{
+  position:absolute;
+  background-color: #fff;
+}
+
+.m-dropdown--menu ul li{
+  list-style: none;
+}
+
+
 
 table {
   display: grid;

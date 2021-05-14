@@ -72,19 +72,32 @@
 .icon-warning-alert {
   width: 48px;
   height: 48px;
+  min-height: 48px;
+  min-width: 48px;
   background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -592px -456px;
 }
 
 .icon-question-mark{
   width: 48px;
   height: 48px;
+  min-height: 48px;
+  min-width: 48px;
   background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -826px -456px;
 }
 
 .icon-error{
   width: 48px;
   height: 48px;
+  min-height: 48px;
+  min-width: 48px;
   background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -24px -954px;
+}
+.icon-arrow-up{
+  width: 16px;
+  height: 16px;
+  min-height: 16px;
+  min-width: 16px;
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -896px -359px;
 }
 /*--------------------input--------------------*/
 .m-item-input {
