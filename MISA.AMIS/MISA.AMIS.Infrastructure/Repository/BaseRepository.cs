@@ -20,7 +20,7 @@ namespace MISA.AMIS.Infrastructure.Repository
             "Port=3306;" +
             "User=dev;" +
             "Password=12345678;" +
-            "Database=MF796_MISA_AMIS;";
+            "Database=MF796_NTQUAN_AMIS;";
         protected IDbConnection _dbConnection;
 
         public BaseRepository()

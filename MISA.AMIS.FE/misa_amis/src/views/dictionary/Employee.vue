@@ -16,10 +16,11 @@
           type="text"
           class="m-input"
           placeholder="Tìm theo mã, tên nhân viên"
+          @input="onSearch($event.target.value)"
         />
         <div class="icon-search mi-16"></div>
       </div>
-      <button class="reload mi-24"></button>
+      <button class="reload mi-24" @click="onLoadEmployee"></button>
     </div>
 
     <div class="content__grid">
@@ -46,9 +47,9 @@
           <th>Chức danh</th>
           <th>Tên đơn vị</th>
           <th>Số tài khoản</th>
-          <th class="text-right">Tên ngân hàng</th>
-          <th>Chi nhánh tài khoản ngân hàng</th>
-          <th class="sticky-right">Chức năng</th>
+          <th>Tên ngân hàng</th>
+          <th>Chi nhánh tk ngân hàng</th>
+          <th class="sticky-right text-center">Chức năng</th>
           <th class="td-white-30"></th>
           <th class="td-grey-30"></th>
         </thead>
@@ -142,7 +143,6 @@
             </td>
             <!-- Tên ngân hàng -->
             <td
-              class="text-right"
               :class="{
                 selected: selectedUser.indexOf(item.EmployeeId) != -1,
               }"
@@ -164,7 +164,15 @@
                 selected: selectedUser.indexOf(item.EmployeeId) != -1,
               }"
             >
-              <button class="btn-edit" @click="rowdblClick(item)">Sửa</button>
+              <button
+                class="btn-edit"
+                @click="rowdblClick(item)"
+                :class="{
+                  selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                }"
+              >
+                Sửa
+              </button>
               <div
                 class="button-arrow flex justify-center"
                 @click="openContextMenu($event, item)"
@@ -180,7 +188,7 @@
 
       <div class="pagination items-center">
         <div class="total-record">
-          Tổng số: 20 bản ghi
+          Tổng số: {{ dataEmployee.length }} bản ghi
         </div>
         <div class="select flex items-center">
           <select name="" id="">
@@ -213,6 +221,7 @@
       :department="department"
       :title="title"
       @onLoad="onLoadEmployee"
+      ref="detail"
     />
 
     <context-menu :display="showContextMenu" ref="menu">
@@ -283,8 +292,7 @@ export default {
     onLoadEmployee() {
       var me = this;
       me.isLoading = true;
-      var url =
-        me.API_HOST + "/api/v1/Employees/paging?pageIndex=1&pageSize=25";
+      var url = `${me.API_HOST}/api/v1/Employees/paging?pageIndex=1&pageSize=25`;
       axios
         .get(url)
         .then((response) => {
@@ -295,6 +303,29 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+
+    /**
+     * Tìm kiếm NV theo mã, tên hoạc sđt
+     * CreatedBy:ntquan(15/05/2021)
+     */
+    onSearch(value) {
+      var me = this;
+      var url = "";
+      if (value == "")
+        url = `${me.API_HOST}/api/v1/Employees/paging?pageIndex=1&pageSize=25`;
+      else
+        url = `${me.API_HOST}/api/v1/Employees/employeeFilter?pageIndex=1&pageSize=25&employeeFilter=${value}`;
+      setTimeout(function() {
+        axios
+          .get(url)
+          .then((response) => {
+            me.dataEmployee = response.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, 100);
     },
 
     /**
@@ -315,8 +346,12 @@ export default {
       var me = this;
       me.dataRow = {};
       me.dataRow.EmployeeCode = await me.genEmployeeCode();
+      me.dataRow.Gender = me.$Const.Male;
       me.title = "Thêm mới nhân viên";
       this.$store.commit("toggleDialog");
+      this.$nextTick(function() {
+        this.$refs.detail.$refs.EmployeeCode.focus();
+      });
     },
 
     /**
@@ -342,11 +377,16 @@ export default {
         res.IdentityDate = me.$fn.fnFormatDateInput(item.IdentityDate);
       me.dataRow = res;
       me.title = "THÔNG TIN NHÂN VIÊN";
-      this.$store.commit("toggleDialog");
+      me.$store.commit("toggleDialog");
+      me.$nextTick(function() {
+        me.$refs.detail.$refs.EmployeeCode.focus();
+      });
       console.log(this.$fn.cloneObject(res));
     },
     /**
-     *
+     * Lấy thông tin nhân viên bằng id
+     * @param id Id NV
+     * CreatedBy: ntquan(15/05/2021)
      */
     async onGetEmployeeById(id) {
       var me = this;
@@ -354,7 +394,11 @@ export default {
       const response = await axios.get(url);
       return response.data;
     },
-    
+
+    /**
+     * Hiển thị alert xác nhận xoá
+     * CreatedBy:ntquan(14/05/2021)
+     */
     openConfirmDelete() {
       var me = this;
       me.$refs.menu.close();
@@ -363,11 +407,15 @@ export default {
       me.iconCls = "icon-warning-alert";
     },
 
+    /**
+     * Thực hiện xoá Nhân viên
+     * CreatedBy:ntquan(14/05/2021)
+     */
     async onDeleteEmployee() {
       var me = this;
       var url = `${me.API_HOST}/api/v1/Employees/${me.dataContext.EmployeeId}`;
       const res = await axios.delete(url);
-      me.isShowAlert=false;
+      me.isShowAlert = false;
       me.onLoadEmployee();
       console.log(res);
     },
@@ -416,7 +464,8 @@ export default {
     },
 
     /**
-     *
+     * Đóng Alert
+     * CreatedBy:ntquan(14/05/2021)
      */
     onCloseAlert() {
       this.isShowAlert = false;
@@ -438,6 +487,7 @@ export default {
   overflow: scroll;
   flex-direction: column;
 }
+
 .content .content__header {
   justify-content: space-between;
   left: 0;
@@ -551,6 +601,7 @@ ul li:hover {
   font-weight: 600;
   color: #7979de;
 }
+
 .btn-edit:hover {
   background-color: #f3f8f8;
 }
@@ -560,32 +611,32 @@ table {
   min-width: 100%;
   width: calc(100% + 500px);
   grid-template-columns:
-    minmax(16px, 16px) minmax(40px, 40px)
-    minmax(130px, 1fr) minmax(200px, 1.67fr) minmax(100px, 0.5fr)
-    minmax(130px, 1fr) minmax(130px, 2fr) minmax(150px, 1.67fr) minmax(
-      150px,
-      3.33fr
+    minmax(16px, 16px) minmax(40px, 40px) minmax(130px, 1fr)
+    minmax(200px, 1.67fr) minmax(100px, 0.5fr) minmax(130px, 1fr) minmax(
+      130px,
+      2fr
     )
     minmax(150px, 1.67fr) minmax(150px, 1.67fr) minmax(150px, 1.67fr) minmax(
-      130px,
-      1fr
+      150px,
+      1.67fr
     )
-    minmax(30px, 30px) minmax(30px, 30px);
+    minmax(200px, 1.67fr) minmax(130px, 1fr) minmax(30px, 30px) minmax(30px, 30px);
 }
+
 thead,
 tbody,
 tr {
   display: contents;
   width: 100%;
 }
-table th,
-td {
+
+table td {
   border-bottom: 1px solid #e8e8e8;
   padding: 5px 10px;
   text-align: left;
   /* overflow: hidden;
-  text-overflow: ellipsis;*/
-  white-space: nowrap;
+      text-overflow: ellipsis;*/
+  /* white-space: nowrap; */
   align-items: center;
   display: flex;
 }
@@ -613,21 +664,28 @@ th.sticky-left {
 
 th {
   position: sticky;
-  top: 72px;
+  display: flex;
+  top: 74px;
   background-color: #ffffff;
+  align-items: center;
   padding: 5px 10px 3px;
+  min-height: 34px;
+  height: auto;
+  text-transform: uppercase;
+  font-size: 12px;
   border-right: 1px solid #c7c7c7;
   border-bottom: 1px solid #c7c7c7;
   background: #eceef1;
 }
 /* tr:nth-child(even) td {
-  background: #f6f6f6;
-} */
+      background: #f6f6f6;
+    } */
 td:last-child {
   display: flex;
   justify-content: center;
   cursor: pointer;
 }
+
 tr:hover > td:not(:first-child, :last-child, :nth-child(14), .selected),
 tr:hover > td .btn-edit {
   background: #f3f8f8 !important;

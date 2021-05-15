@@ -170,6 +170,11 @@ input[type="checkbox"]:before {
   border-radius: 3px;
   background-color: white;
 }
+
+input[type="checkbox"]:checked:before {
+  animation: spin 1s linear 1s;
+}
+
 input[type="checkbox"]:checked:after {
   content: "";
   display: block;
@@ -183,6 +188,24 @@ input[type="checkbox"]:checked:after {
   position: absolute;
   /* top: 2px; */
   left: 6px;
+  animation: spin 1s linear 1s;
+}
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 input[type="radio"] {
@@ -338,16 +361,18 @@ input[type="radio"] {
 }
 
 .selected {
-  background-color: #c7e7cc !important;
+  background-color: #f8f8f8 !important;
 }
 
 /*-------------------classCommon---------------------*/
 .text-right {
   text-align: right;
+  justify-content: flex-end;
 }
 
 .text-center {
   text-align: center;
+  justify-content: center;
 }
 
 .mi-16 {

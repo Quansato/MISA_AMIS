@@ -47,6 +47,11 @@
                   class="m-input"
                   ref="EmployeeCode"
                   v-model="employee.EmployeeCode"
+                  @blur="
+                    checkBlankText([
+                      { key: 'EmployeeCode', text: 'Mã không được để trống' },
+                    ])
+                  "
                 />
               </div>
               <!-- Tên -->
@@ -59,6 +64,11 @@
                   class="m-input"
                   ref="EmployeeName"
                   v-model="employee.EmployeeName"
+                  @blur="
+                    checkBlankText([
+                      { key: 'EmployeeName', text: 'Tên không được để trống' },
+                    ])
+                  "
                 />
               </div>
             </div>
@@ -74,6 +84,11 @@
                   class="m-select"
                   v-model="employee.DepartmentId"
                   ref="Department"
+                  @blur="
+                    checkBlankText([
+                      { key: 'Department', text: 'Đơn vị không được để trống' },
+                    ])
+                  "
                 >
                   <option
                     v-for="(item, index) in department"
@@ -282,6 +297,7 @@
 import axios from "axios";
 import Alert from "../../components/Alert/Alert";
 import AlertConfirm from "../../components/Alert/Alert";
+import Vue from "vue";
 
 export default {
   name: "Detail",
@@ -302,7 +318,6 @@ export default {
     };
   },
   methods: {
-
     onLoadEmployee() {
       this.$emit("onLoad");
     },
@@ -334,7 +349,7 @@ export default {
         if (response.status == me.$Const.DATA_UPDATED) {
           console.log("Cập nhật thành công");
           me.onClose();
-          me.onLoadEmployee()
+          me.onLoadEmployee();
         } else {
           console.log("Cập nhật thất bại");
         }
@@ -345,7 +360,7 @@ export default {
         if (response.status == me.$Const.DATA_CREATED) {
           console.log("Thêm mới thành công");
           me.onClose();
-          me.onLoadEmployee()
+          me.onLoadEmployee();
         } else {
           console.log("Thêm mới thất bại");
         }
@@ -443,9 +458,8 @@ export default {
       return isExist;
     },
 
-
     /**
-     * 
+     *
      */
     onCloseAlert() {
       this.isShowAlert = false;
@@ -460,8 +474,6 @@ export default {
     onClose() {
       this.$store.commit("toggleDialog");
     },
-
-
   },
   created() {
     // this.onLoadEmployee();
@@ -470,6 +482,16 @@ export default {
     if (this.$refs.EmployeeCode) {
       this.$refs.EmployeeCode.focus();
     }
+  },
+  watch: {
+    show: function() {
+      if (self.isShow) {
+        let self = this;
+        Vue.nextTick().then(function() {
+          self.$refs.EmployeeCode.focus();
+        });
+      }
+    },
   },
   computed: {
     isShow() {
