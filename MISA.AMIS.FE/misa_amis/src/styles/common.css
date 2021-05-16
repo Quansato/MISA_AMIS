@@ -172,7 +172,6 @@ input[type="checkbox"]:before {
 }
 
 input[type="checkbox"]:checked:before {
-  animation: spin 1s linear 1s;
 }
 
 input[type="checkbox"]:checked:after {
@@ -188,8 +187,35 @@ input[type="checkbox"]:checked:after {
   position: absolute;
   /* top: 2px; */
   left: 6px;
-  animation: spin 1s linear 1s;
 }
+
+input[type="radio"] {
+  /* remove standard background appearance */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* create custom radiobutton appearance */
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  padding: 2px;
+  /* background-color only for content */
+  background-clip: content-box;
+  border: 1px solid #bbbbbb;
+  background-color: #e7e6e7;
+  border-radius: 50%;
+}
+
+/* appearance for checked radiobutton */
+input[type="radio"]:checked {
+  background-color: red;
+}
+
+/* appearance of checked radiobutton */
+input[type="radio"]:checked:before {
+  background-color: red;
+}
+
 
 @-moz-keyframes spin {
   100% {
@@ -505,6 +531,10 @@ input[type="radio"] {
 
 .m-r-10 {
   margin-right: 10px;
+}
+
+.m-b-5{
+  margin-bottom: 5px;
 }
 
 /*Width*/

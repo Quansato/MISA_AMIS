@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace MISA.AMIS.Core.Entities
 {
-    public class Department:BaseEntity
+    public class Department : BaseEntity
     {
+        #region Declare
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Property
+
         /// <summary>
         /// id phòng ban
         /// </summary>
@@ -22,5 +32,6 @@ namespace MISA.AMIS.Core.Entities
         /// Mô tả
         /// </summary>
         public string Description { get; set; }
+        #endregion
     }
 }

@@ -2,7 +2,9 @@
   <div class="body-left">
     <div class="sidebar">
       <div class="toggle" @click="toggleMenu"></div>
+      <router-link to="/Employee">
       <div class="logo" :class="{ isToggle: isToggle }"></div>
+      </router-link>
     </div>
     <div class="menu">
       <router-link
@@ -66,6 +68,41 @@ export default {
           path: "",
           class: "icon icon-tool",
           name: "Công cụ dụng cụ",
+        },
+        {
+          path: "",
+          class: "icon icon-asset",
+          name: "Tài sản cố định",
+        },
+        {
+          path: "",
+          class: "icon icon-tax",
+          name: "Thuế",
+        },
+        {
+          path: "",
+          class: "icon icon-price",
+          name: "Giá thành",
+        },
+        {
+          path: "",
+          class: "icon icon-general",
+          name: "Tổng hợp",
+        },
+        {
+          path: "",
+          class: "icon icon-budget",
+          name: "Ngân sách",
+        },
+        {
+          path: "",
+          class: "icon icon-report",
+          name: "Báo cáo",
+        },
+        {
+          path: "",
+          class: "icon icon-analyst",
+          name: "Phân tích tài chính",
         },
       ],
     };
@@ -171,7 +208,7 @@ a {
 }
 
 .body-left .menu .menu-item .icon-bill {
-  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -161px -1628px;
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -249px -1628px;
 }
 
 .body-left .menu .menu-item .icon-storeroom {
@@ -180,6 +217,34 @@ a {
 
 .body-left .menu .menu-item .icon-tool {
   background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -336px -1628px;
+}
+
+.body-left .menu .menu-item .icon-asset {
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -378px -1630px;
+}
+
+.body-left .menu .menu-item .icon-tax {
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -423px -1630px;
+}
+
+.body-left .menu .menu-item .icon-price {
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -467px -1628px;
+}
+
+.body-left .menu .menu-item .icon-general {
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -510px -1628px;
+}
+
+.body-left .menu .menu-item .icon-budget {
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -378px -1659px;
+}
+
+.body-left .menu .menu-item .icon-report {
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -547px -1628px;
+}
+
+.body-left .menu .menu-item .icon-analyst{
+  background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -204px -1664px;
 }
 
 .body-left .menu .menu-item .item-name {

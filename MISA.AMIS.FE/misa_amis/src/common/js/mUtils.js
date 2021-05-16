@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export const func = {
   functionName: (data) => {
     console.log(data);
@@ -69,21 +71,8 @@ export const func = {
    * TODO:Format DateTime
    * CreateBy:ntquan(21/04/2021)
    */
-
   fnFormatDate: function(dateInput) {
-    if (dateInput == null) return null;
-    var date = new Date(dateInput);
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var dt = date.getDate();
-
-    if (dt < 10) {
-      dt = "0" + dt;
-    }
-    if (month < 10) {
-      month = "0" + month;
-    }
-    return dt + "/" + month + "/" + year;
+      return moment(String(dateInput)).format('DD/MM/YYYY')
   },
 
   /**
@@ -91,18 +80,7 @@ export const func = {
    * CreateBy:ntquan(21/04/2021)
    */
   fnFormatDateInput: function(dateInput) {
-    var date = new Date(dateInput);
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var dt = date.getDate();
-
-    if (dt < 10) {
-      dt = "0" + dt;
-    }
-    if (month < 10) {
-      month = "0" + month;
-    }
-    return year + "-" + month + "-" + dt;
+    return moment(dateInput).format('YYYY-MM-DD')
   },
 
   /**

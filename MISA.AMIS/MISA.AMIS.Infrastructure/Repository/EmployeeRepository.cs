@@ -12,6 +12,16 @@ namespace MISA.AMIS.Infrastructure.Repository
 {
     public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
+        #region Declare
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Property
+
         public bool CheckDepartmentExits(Guid? departmentId)
         {
             var storeName = $"Proc_CheckDepartmentExist";
@@ -67,5 +77,6 @@ namespace MISA.AMIS.Infrastructure.Repository
             var entity = _dbConnection.Query<Employee>(storeName, param: dynamicParameters, commandType: CommandType.StoredProcedure);
             return entity;
         }
+        #endregion
     }
 }

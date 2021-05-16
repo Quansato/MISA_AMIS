@@ -44,7 +44,6 @@ export default {
   created() {
     var vm = this;
     EventBus.$on("onFilter", (data) => {
-      console.log(data);
       vm.isShow = data.isShow;
       vm.alert = data.alert;
     });

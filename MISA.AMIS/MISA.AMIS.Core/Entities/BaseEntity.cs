@@ -26,7 +26,7 @@ namespace MISA.AMIS.Core.Entities
 
     }
 
-    // Dùng để check trùng dữ liệu
+    //Kiểm tra định dạng Email
     [AttributeUsage(AttributeTargets.Property)]
     public class IsNotEmail : Attribute
     {

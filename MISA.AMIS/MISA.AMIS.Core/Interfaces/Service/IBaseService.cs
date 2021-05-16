@@ -12,7 +12,7 @@ namespace MISA.AMIS.Core.Interfaces.Service
         /// <summary>
         /// Lấy toàn bộ dữ liệu trong bảng
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Toàn bộ entities trong bảng</returns>
         /// CreatedBy:ntquan(4/5/2021)
         IEnumerable<MISAEntity> GetEntities();
 
