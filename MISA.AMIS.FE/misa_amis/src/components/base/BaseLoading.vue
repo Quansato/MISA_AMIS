@@ -1,28 +1,15 @@
 <template>
-  <div>
-    <Loading
-      :active.sync="showLoading"
-      :loader="loader"
-      :color="color"
-      :height="height"
-      :width="width"
-      :on-cancel="onCancel"
-      :opacity="opacity"
-      :background-color="backgroundColor"
-      :blur="blur"
-      :is-full-page="fullPage"
-    ></Loading>
+  <div v-if="showLoading">
+    <img src="../../assets/loading.svg" alt="" />
   </div>
 </template>
 <script>
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
+// import Loading from "vue-loading-overlay";
+// import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
   name: "BaseLoading",
-  components: {
-    Loading,
-  },
+
   props: ["showLoading"],
   methods: {
     btnAddOnClick() {
@@ -57,3 +44,38 @@ export default {
   },
 };
 </script>
+<style scoped>
+div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+div img {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  -webkit-animation: spin 4s linear infinite;
+  -moz-animation: spin 4s linear infinite;
+  animation: spin 1s linear infinite;
+}
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+</style>

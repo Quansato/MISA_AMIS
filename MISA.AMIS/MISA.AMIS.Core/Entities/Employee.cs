@@ -78,9 +78,7 @@ namespace MISA.AMIS.Core.Entities
         ///  Số CMND/Thẻ căn cước
         /// </summary>
         [IsDuplicate]
-        [Required]
         [MaxLength(12, "CMND - Thẻ căn cước không được quá 12 kí tự")]
-        [DisplayName("CMND - Thẻ căn cước")]
         public string IdentityNumber { get; set; }
 
         /// <summary>
@@ -97,18 +95,14 @@ namespace MISA.AMIS.Core.Entities
         /// <summary>
         /// Địa chỉ Email
         /// </summary>
-        [IsDuplicate]
-        [Required]
-        [IsNotEmail]
+        //[IsNotEmail]
         [MaxLength(50, "Email không được quá 50 kí tự")]
-        [DisplayName("Email")]
         public string Email { get; set; }
 
         /// <summary>
         /// Số điện thoại
         /// </summary>
         [IsDuplicate]
-        [Required]
         [MaxLength(20, "Số điện thoại không được quá 20 kí tự")]
         [DisplayName("Số điện thoại")]
         public string PhoneNumber { get; set; }
@@ -128,6 +122,7 @@ namespace MISA.AMIS.Core.Entities
         /// <summary>
         /// Nhóm phòng ban
         /// </summary>
+        [Required]
         [Primary]
         public Guid? DepartmentId { get; set; }
         

@@ -175,7 +175,7 @@ namespace MISA.AMIS.Core.Services
 
         }
 
-        private bool Validate(MISAEntity entity)
+       /* private bool Validate(MISAEntity entity)
         {
             var mes = new List<string>();
             var isValidate = true;
@@ -260,7 +260,7 @@ namespace MISA.AMIS.Core.Services
             }
             _serviceResult.data = mes;
             return isValidate;
-        }
+        }*/
         #endregion
 
     }

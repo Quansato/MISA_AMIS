@@ -15,14 +15,6 @@ namespace MISA.AMIS.WebApp.Controllers
     public abstract class BaseEntityController<MISAEntity> : ControllerBase
     {
         #region Declare
-        protected string _tableName = string.Empty;
-        protected string _connectionString = "" +
-               "Host=47.241.69.179; " +
-               "Port=3306;" +
-               "User Id= dev; " +
-               "Password=12345678;" +
-               "Database= MF796_MISA_AMIS";
-        protected IDbConnection _dbConnection;
         IBaseService<MISAEntity> _baseService;
         #endregion
 
@@ -30,8 +22,6 @@ namespace MISA.AMIS.WebApp.Controllers
         public BaseEntityController(IBaseService<MISAEntity> baseService)
         {
             _baseService = baseService;
-            _tableName = typeof(MISAEntity).Name;
-            _dbConnection = new MySqlConnection(_connectionString);
         }
         #endregion
 
