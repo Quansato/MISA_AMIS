@@ -6,7 +6,7 @@
         <div class="select flex items-center">
             <select name="" id="" @change="onClickPage(1,$event.target.value)">
                 <option value="10">10 bản ghi trên 1 trang</option>
-                <option value="20">20 bản ghi trên 1 trang</option>
+                <option value="20" selected>20 bản ghi trên 1 trang</option>
                 <option value="30">30 bản ghi trên 1 trang</option>
                 <option value="40">40 bản ghi trên 1 trang</option>
                 <option value="50">50 bản ghi trên 1 trang</option>

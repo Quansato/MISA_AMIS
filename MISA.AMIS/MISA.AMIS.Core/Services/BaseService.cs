@@ -44,7 +44,6 @@ namespace MISA.AMIS.Core.Services
         {
             try
             {
-
                 // Gắn trạng thái - phân biệt validate thêm
                 entity.EntityState = Enums.EntityState.AddNew;
                 ValidateObject(entity);

@@ -109,6 +109,7 @@
                                        min="1900-01-01"
                                        :max="$fn.fnFormatDateInput(new Date())"
                                        class="m-input"
+                                       placeholder="dd-mm-yyyy"
                                        v-model="employee.DateOfBirth"
                                        tabindex="5" />
                             </div>
@@ -569,6 +570,7 @@
                     var url = `${this.API_HOST}/api/v1/Employees/CheckEmployeeCodeExist?employeeCode=${employeeCode}`;
                     var res = await axios.get(url);
                     if (res.data) {
+                    if(me.isLoading) me.isLoading =false;
                         me.messageAlert +=
                             me.messageAlert == ""
                                 ? `Mã nhân viên <${employeeCode}> đã tồn tại trong hệ thống, vui lòng kiểm tra lại`
