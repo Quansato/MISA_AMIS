@@ -27,6 +27,12 @@ namespace MISA.AMIS.Core.Services
             return isExist;
         }
 
+        public ServiceResult DeleteMultipleEmployee(string listId)
+        {
+            _serviceResult.data = _employeeReponsitory.DeleteMultipleEmployee(listId);
+            return _serviceResult;
+        }
+
         public int GetCountEmployee()
         {
             var count = _employeeReponsitory.GetCountEmployee();

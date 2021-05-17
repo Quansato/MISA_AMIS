@@ -50,5 +50,12 @@ namespace MISA.AMIS.Core.Interfaces.Service
         /// CreatedBy: ntquan(13/05/2021)
         ServiceResult GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter);
 
+        /// <summary>
+        /// Xoá nhiều bản ghi
+        /// </summary>
+        /// <param name="listId">Danh sách Id muốn xoá</param>
+        /// <returns></returns>
+        /// CreatedBy: ntquan(13/05/2021)
+        ServiceResult DeleteMultipleEmployee(string listId);
     }
 }
