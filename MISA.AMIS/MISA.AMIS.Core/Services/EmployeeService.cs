@@ -65,7 +65,7 @@ namespace MISA.AMIS.Core.Services
                     numbers += c;
                 }
             }
-            var newCode = $"{letters}-{Int32.Parse(numbers) + 1}";
+            var newCode = $"NV-{Int32.Parse(numbers) + 1}";
             return newCode;
         }
 
