@@ -50,7 +50,7 @@ div {
   width: 100%;
   height: 100%;
   display: flex;
-  z-index: 100;
+  z-index: 20;
   justify-content: center;
   align-items: center;
 }

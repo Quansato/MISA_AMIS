@@ -4,6 +4,7 @@
              ref="modal"
              @mousedown="$fn.startMoving($refs['modal'], 'dlgEmployee', $event)"
              @mouseup="$fn.stopMoving($refs['modal'])">
+             <BaseLoading :showLoading="isLoading" class="loading-action"/>
             <div class="dialog-header">
                 <div class="dialog-title flex items-center">
                     {{ title }}
@@ -290,6 +291,7 @@
     import axios from "axios";
     import Alert from "../../components/Alert/Alert";
     import AlertConfirm from "../../components/Alert/Alert";
+    import BaseLoading from "../../components/base/BaseLoading";
     import Vue from "vue";
 
     export default {
@@ -297,6 +299,7 @@
         components: {
             Alert,
             AlertConfirm,
+            BaseLoading
         },
         props: ["department", "title"],
         // computed:{
@@ -332,6 +335,7 @@
                 API_HOST: this.$Const.API_HOST,
                 dataEmployee: [],
                 isOnlySave: true,
+                isLoading:false 
             };
         },
         methods: {
@@ -358,8 +362,10 @@
              * */
             onSaveAndNew() {
                 var me = this;
+                me.isLoading=true;
                 me.isOnlySave = false;
                 me.fnSave();
+                //me.isLoading=false
             },
 
             /**
@@ -394,6 +400,7 @@
                         newCode = await me.genEmployeeCode();
                         me.$store.commit("setDataRow", { EmployeeCode: newCode });
                         me.isOnlySave = true;
+                        me.isLoading=false
                     } else {
                         //TODO
                     }
@@ -414,6 +421,7 @@
                         newCode = await me.genEmployeeCode();
                         me.$store.commit("setDataRow", { EmployeeCode: newCode });
                         me.isOnlySave = true;
+                        me.isLoading=false
                     }
                 }
             },
@@ -491,6 +499,7 @@
                 me.checkEmailValid();
                 if (me.messageAlert != "") {
                     me.iconCls = "icon-error";
+                    if(me.isLoading) me.isLoading =false;
                     me.isShowAlert = true;
                     isError += 1;
                 }
@@ -602,7 +611,7 @@
         background-color: rgba(0, 0, 0, 0.5);
         max-height: 100%;
         overflow: auto;
-        z-index: 10;
+        z-index: 21;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -698,5 +707,9 @@
         color: #111111;
         margin-left: 10px;
         font-weight: 100;
+    }
+
+    .loading-action{
+        z-index: 22 !important;
     }
 </style>

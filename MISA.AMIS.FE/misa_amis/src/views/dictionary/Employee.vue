@@ -247,6 +247,7 @@
                 title: "",
                 currentPage: 1,
                 total: 0,
+                timeout:null
             };
         },
         methods: {
@@ -307,7 +308,10 @@
             onSearch(value) {
                 var me = this;
                 var url = "";
-                setTimeout(function () {
+                if (me.timeout) {  
+                    clearTimeout(me.timeout);
+                }
+                me.timeout=setTimeout(function () {
                     if (value == "")
                         url = `${me.API_HOST}/api/v1/Employees/paging?pageIndex=1&pageSize=${me.pageSize}`;
                     else
