@@ -104,5 +104,6 @@
                 height: 14px;
                 background: url("../assets/img/Sprites.64af8f61.svg") no-repeat -1076px -32px;
                 margin-left: 5px;
+                cursor: pointer;
             }
 </style>

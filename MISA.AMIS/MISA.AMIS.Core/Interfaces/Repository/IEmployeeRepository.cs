@@ -61,5 +61,13 @@ namespace MISA.AMIS.Core.Interfaces.Repository
         /// <returns>entities theo key lọc</returns>
         /// CreatedBy: ntquan(13/05/2021)
         IEnumerable<Employee> GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter);
+
+        /// <summary>
+        /// Xoá nhiều bản ghi
+        /// </summary>
+        /// <param name="listId">Danh sách Id muốn xoá</param>
+        /// <returns></returns>
+        /// CreatedBy: ntquan(13/05/2021)
+        int DeleteMultipleEmployee(string listId);
     }
 }

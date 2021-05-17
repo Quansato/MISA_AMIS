@@ -4,6 +4,7 @@
              ref="modal"
              @mousedown="$fn.startMoving($refs['modal'], 'dlgEmployee', $event)"
              @mouseup="$fn.stopMoving($refs['modal'])">
+             <BaseLoading :showLoading="isLoading" class="loading-action"/>
             <div class="dialog-header">
                 <div class="dialog-title flex items-center">
                     {{ title }}
@@ -108,6 +109,7 @@
                                        min="1900-01-01"
                                        :max="$fn.fnFormatDateInput(new Date())"
                                        class="m-input"
+                                       placeholder="dd-mm-yyyy"
                                        v-model="employee.DateOfBirth"
                                        tabindex="5" />
                             </div>
@@ -290,6 +292,7 @@
     import axios from "axios";
     import Alert from "../../components/Alert/Alert";
     import AlertConfirm from "../../components/Alert/Alert";
+    import BaseLoading from "../../components/base/BaseLoading";
     import Vue from "vue";
 
     export default {
@@ -297,6 +300,7 @@
         components: {
             Alert,
             AlertConfirm,
+            BaseLoading
         },
         props: ["department", "title"],
         // computed:{
@@ -332,6 +336,7 @@
                 API_HOST: this.$Const.API_HOST,
                 dataEmployee: [],
                 isOnlySave: true,
+                isLoading:false 
             };
         },
         methods: {
@@ -358,8 +363,10 @@
              * */
             onSaveAndNew() {
                 var me = this;
+                me.isLoading=true;
                 me.isOnlySave = false;
                 me.fnSave();
+                //me.isLoading=false
             },
 
             /**
@@ -378,42 +385,53 @@
                 if (countErr != 0) return;
                 // lưu thông tin
                 if (me.employee.EmployeeId) {
-                    //cập nhật
-                    url = `${me.API_HOST}/api/v1/Employees?entityId=${me.employee.EmployeeId}`;
-                    const response = await axios.put(url, me.employee);
-                    //hiện thông báo
-                    if (response.status == me.$Const.DATA_UPDATED && me.isOnlySave) {
-                        me.onClose();
-                        me.onLoadEmployee();
-                    } else if (
-                        response.status == me.$Const.DATA_UPDATED &&
-                        !me.isOnlySave
-                    ) {
-                        me.onLoadEmployee();
-                        me.$store.commit("setDataRow", {});
-                        newCode = await me.genEmployeeCode();
-                        me.$store.commit("setDataRow", { EmployeeCode: newCode });
-                        me.isOnlySave = true;
-                    } else {
-                        //TODO
+                    try {               
+                        //cập nhật
+                        url = `${me.API_HOST}/api/v1/Employees?entityId=${me.employee.EmployeeId}`;
+                        const response = await axios.put(url, me.employee);
+                        //hiện thông báo
+                        if (response.status == me.$Const.DATA_UPDATED && me.isOnlySave) {
+                            me.onClose();
+                            me.onLoadEmployee();
+                        } else if (
+                            response.status == me.$Const.DATA_UPDATED &&
+                            !me.isOnlySave
+                        ) {
+                            me.onLoadEmployee();
+                            me.$store.commit("setDataRow", {});
+                            newCode = await me.genEmployeeCode();
+                            me.$store.commit("setDataRow", { EmployeeCode: newCode });
+                            me.isOnlySave = true;
+                            me.isLoading=false
+                        } else {
+                            //TODO
+                        }
+                    } catch (error) {
+                        console.warn(error);
                     }
-                } else {
-                    //Thêm mới
-                    url = `${me.API_HOST}/api/v1/Employees`;
-                    const response = await axios.post(url, me.employee);
 
-                    if (response.status == me.$Const.DATA_CREATED && me.isOnlySave) {
-                        me.onClose();
-                        me.onLoadEmployee();
-                    } else if (
-                        response.status == me.$Const.DATA_CREATED &&
-                        !me.isOnlySave
-                    ) {
-                        me.onLoadEmployee();
-                        me.$store.commit("setDataRow", {});
-                        newCode = await me.genEmployeeCode();
-                        me.$store.commit("setDataRow", { EmployeeCode: newCode });
-                        me.isOnlySave = true;
+                } else {
+                    try {          
+                        //Thêm mới
+                        url = `${me.API_HOST}/api/v1/Employees`;
+                        const response = await axios.post(url, me.employee);
+    
+                        if (response.status == me.$Const.DATA_CREATED && me.isOnlySave) {
+                            me.onClose();
+                            me.onLoadEmployee();
+                        } else if (
+                            response.status == me.$Const.DATA_CREATED &&
+                            !me.isOnlySave
+                        ) {
+                            me.onLoadEmployee();
+                            me.$store.commit("setDataRow", {});
+                            newCode = await me.genEmployeeCode();
+                            me.$store.commit("setDataRow", { EmployeeCode: newCode });
+                            me.isOnlySave = true;
+                            me.isLoading=false
+                        }
+                    } catch (error) {
+                        console.warn(error);
                     }
                 }
             },
@@ -459,9 +477,13 @@
              * CreatedBy:ntquan(13/05/2021)
              */
             async genEmployeeCode() {
-                let url = this.API_HOST + "/api/v1/Employees/NewEmployeeCode";
-                var response = await axios.get(url);
-                return response.data;
+                try {                   
+                    let url = this.API_HOST + "/api/v1/Employees/NewEmployeeCode";
+                    var response = await axios.get(url);
+                    return response.data;
+                } catch (error) {
+                    console.warn(error);
+                }
             },
 
             /**
@@ -491,6 +513,7 @@
                 me.checkEmailValid();
                 if (me.messageAlert != "") {
                     me.iconCls = "icon-error";
+                    if(me.isLoading) me.isLoading =false;
                     me.isShowAlert = true;
                     isError += 1;
                 }
@@ -541,20 +564,25 @@
              * CreatedBy: ntquan(11/05/2021)
              */
             async checkEmployeeCodeExist(employeeCode) {
-                var me = this;
-                var isExist = 0;
-                var url = `${this.API_HOST}/api/v1/Employees/CheckEmployeeCodeExist?employeeCode=${employeeCode}`;
-                var res = await axios.get(url);
-                if (res.data) {
-                    me.messageAlert +=
-                        me.messageAlert == ""
-                            ? `Mã nhân viên <${employeeCode}> đã tồn tại trong hệ thống, vui lòng kiểm tra lại`
-                            : "";
-                    me.iconCls = "icon-error";
-                    me.isShowAlert = true;
-                    isExist += 1;
+                try {         
+                    var me = this;
+                    var isExist = 0;
+                    var url = `${this.API_HOST}/api/v1/Employees/CheckEmployeeCodeExist?employeeCode=${employeeCode}`;
+                    var res = await axios.get(url);
+                    if (res.data) {
+                    if(me.isLoading) me.isLoading =false;
+                        me.messageAlert +=
+                            me.messageAlert == ""
+                                ? `Mã nhân viên <${employeeCode}> đã tồn tại trong hệ thống, vui lòng kiểm tra lại`
+                                : "";
+                        me.iconCls = "icon-error";
+                        me.isShowAlert = true;
+                        isExist += 1;
+                    }
+                    return isExist;
+                } catch (error) {
+                    console.warn(error);
                 }
-                return isExist;
             },
 
             /**
@@ -602,7 +630,7 @@
         background-color: rgba(0, 0, 0, 0.5);
         max-height: 100%;
         overflow: auto;
-        z-index: 10;
+        z-index: 21;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -698,5 +726,9 @@
         color: #111111;
         margin-left: 10px;
         font-weight: 100;
+    }
+
+    .loading-action{
+        z-index: 22 !important;
     }
 </style>

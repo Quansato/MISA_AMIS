@@ -247,6 +247,8 @@
                 title: "",
                 currentPage: 1,
                 total: 0,
+                isDeleteByShortcut:false,
+                timeout:null
             };
         },
         methods: {
@@ -305,26 +307,33 @@
              * CreatedBy:ntquan(15/05/2021)
              */
             onSearch(value) {
-                var me = this;
-                var url = "";
-                setTimeout(function () {
-                    if (value == "")
-                        url = `${me.API_HOST}/api/v1/Employees/paging?pageIndex=1&pageSize=${me.pageSize}`;
-                    else
-                        url = `${me.API_HOST}/api/v1/Employees/employeeFilter?pageIndex=1&pageSize=${me.pageSize}&employeeFilter=${value}`;
-                    axios
-                        .get(url)
-                        .then((response) => {
-                            me.dataEmployee = response.data.data;
-                            me.total = response.data.Total;
-                            console.log(me.dataEmployee);
-                            if (me.dataEmployee.length == 0) me.isNoData = true;
-                            else me.isNoData = false;
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                }, 100);
+                try {               
+                    var me = this;
+                    var url = "";
+                    if (me.timeout) {  
+                        clearTimeout(me.timeout);
+                    }
+                    me.timeout=setTimeout(function () {
+                        if (value == "")
+                            url = `${me.API_HOST}/api/v1/Employees/paging?pageIndex=1&pageSize=${me.pageSize}`;
+                        else
+                            url = `${me.API_HOST}/api/v1/Employees/employeeFilter?pageIndex=1&pageSize=${me.pageSize}&employeeFilter=${value}`;
+                        axios
+                            .get(url)
+                            .then((response) => {
+                                me.dataEmployee = response.data.data;
+                                me.total = response.data.Total;
+                                console.log(me.dataEmployee);
+                                if (me.dataEmployee.length == 0) me.isNoData = true;
+                                else me.isNoData = false;
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
+                    }, 100);
+                } catch (error) {
+                    console.warn(error);
+                }
             },
 
             /**
@@ -332,9 +341,13 @@
              * CreatedBy:ntquan(13/05/2021)
              */
             async genEmployeeCode() {
-                let url = this.API_HOST + "/api/v1/Employees/NewEmployeeCode";
-                var response = await axios.get(url);
-                return response.data;
+                try {                
+                    let url = this.API_HOST + "/api/v1/Employees/NewEmployeeCode";
+                    var response = await axios.get(url);
+                    return response.data;
+                } catch (error) {
+                    console.warn(error);
+                }
             },
 
             /**
@@ -415,10 +428,33 @@
              */
             async onDeleteEmployee() {
                 var me = this;
+                if( me.isDeleteByShortcut) return;
                 var url = `${me.API_HOST}/api/v1/Employees/${me.dataContext.EmployeeId}`;
                 await axios.delete(url);
                 me.isShowAlert = false;
                 me.onLoadEmployee();
+            },
+
+
+            /**
+             * Phím tắt
+             * CreatedBy: ntquan(16/05/2021)
+             */
+            handleKeyUp(e) {
+                var me = this;
+                if (!me.$store.getters.getIsShow) {
+                    if (e.ctrlKey && e.keyCode == 68) {
+                        var countEmployee = me.selectedUser.indexOf('All')!=-1?me.selectedUser.length - 1: me.selectedUser.length
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log(countEmployee);
+                        me.isDeleteByShortcut =true;
+                        me.iconCls = "icon-warning-alert";
+                        me.messageAlert = `Bạn có thực sự muốn xoá <${countEmployee}> Nhân viên không?`;
+                        me.isShowAlert = true;
+                        //console.log(e);
+                    }
+                }
             },
 
             /**
@@ -470,6 +506,7 @@
              * CreatedBy:ntquan(14/05/2021)
              */
             onCloseAlert() {
+                this.isDeleteByShortcut=false;
                 this.isShowAlert = false;
                 this.messageAlert = "";
                 this.iconCls = "";
@@ -479,6 +516,7 @@
         created() {
             this.onLoadEmployee();
             this.getDepartment();
+            document.addEventListener("keydown", this.handleKeyUp);
         },
         mounted() { },
     };
@@ -678,7 +716,7 @@
     th {
         position: sticky;
         display: flex;
-        top: 72px;
+        top: 74px;
         background-color: #ffffff;
         align-items: center;
         padding: 5px 10px 3px;

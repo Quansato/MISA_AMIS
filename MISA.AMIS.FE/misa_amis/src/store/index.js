@@ -8,7 +8,7 @@ const store = new Vuex.Store({
     isToggle: false,
     isShowDialogEmployee: false,
     dataRow: {},
-    pageSize: 10,
+    pageSize: 20,
   },
   mutations: {
     toggleSideBar(state) {

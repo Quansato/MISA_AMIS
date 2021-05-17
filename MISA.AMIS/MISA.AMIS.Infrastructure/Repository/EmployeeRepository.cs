@@ -42,6 +42,16 @@ namespace MISA.AMIS.Infrastructure.Repository
             return res;
         }
 
+        public int DeleteMultipleEmployee(string listId)
+        {
+            var storeName = $"Proc_DeleteMultiple";
+            DynamicParameters dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add($"@in_ids", listId);
+
+            var result = _dbConnection.Execute(storeName, param: dynamicParameters, commandType: CommandType.StoredProcedure);
+            return result;
+        }
+
         public int GetCountEmployee()
         {
             var storeName = $"Proc_GetCountEmployee";
