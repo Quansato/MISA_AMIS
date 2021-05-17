@@ -19,7 +19,7 @@ namespace MISA.AMIS.Core.Services
         #endregion
 
         #region Constructor
-        public BaseService( IBaseRepository<MISAEntity> baseRepository)
+        public BaseService(IBaseRepository<MISAEntity> baseRepository)
         {
             _baseRepository = baseRepository;
             _serviceResult = new ServiceResult();
@@ -42,25 +42,42 @@ namespace MISA.AMIS.Core.Services
 
         public ServiceResult Insert(MISAEntity entity)
         {
-            // Gắn trạng thái - phân biệt validate thêm
-            entity.EntityState = Enums.EntityState.AddNew;
-            ValidateObject(entity);
-            // Nếu dữ liệu đầu vào ok thì mới tiếp tục:
-            _serviceResult.data = _baseRepository.Insert(entity);
-            _serviceResult.Msg = "Thêm mới dữ liệu thành công";
-            _serviceResult.MISACode = Enums.MISACode.IsValid;
-            return _serviceResult;
+            try
+            {
+
+                // Gắn trạng thái - phân biệt validate thêm
+                entity.EntityState = Enums.EntityState.AddNew;
+                ValidateObject(entity);
+                // Nếu dữ liệu đầu vào ok thì mới tiếp tục:
+                _serviceResult.data = _baseRepository.Insert(entity);
+                _serviceResult.Msg = "Thêm mới dữ liệu thành công";
+                _serviceResult.MISACode = Enums.MISACode.IsValid;
+                return _serviceResult;
+            }
+            catch (Exception ex)
+            {
+                throw new ValidateExceptions(ex.Message);
+            }
 
         }
 
         public ServiceResult Update(MISAEntity entity, Guid entityId)
         {
-            entity.EntityState = Enums.EntityState.Update;
-            ValidateObject(entity);
-            _serviceResult.data = _baseRepository.Update(entity, entityId);
-            _serviceResult.Msg = "Cập nhật dữ liệu thành công";
-            _serviceResult.MISACode = Enums.MISACode.IsValid;
-            return _serviceResult;
+            try
+            {
+
+                entity.EntityState = Enums.EntityState.Update;
+                ValidateObject(entity);
+                _serviceResult.data = _baseRepository.Update(entity, entityId);
+                _serviceResult.Msg = "Cập nhật dữ liệu thành công";
+                _serviceResult.MISACode = Enums.MISACode.IsValid;
+                return _serviceResult;
+            }
+            catch (Exception ex)
+            {
+                throw new ValidateExceptions(ex.Message);
+
+            }
         }
         public ServiceResult Delete(Guid entityId)
         {

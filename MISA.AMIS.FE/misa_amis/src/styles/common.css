@@ -54,6 +54,7 @@
 .btn-next {
   border: none;
   background-color: #fff;
+  cursor: pointer;
 }
 /*-------------------icon-----------------*/
 .icon-add {
