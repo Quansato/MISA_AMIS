@@ -9,6 +9,15 @@ namespace MISA.AMIS.Core.Entities
 {
     public class ServiceResult
     {
+        #region Declare
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Property
         /// <summary>
         /// Dữ liệu trả về
         /// </summary>
@@ -23,5 +32,11 @@ namespace MISA.AMIS.Core.Entities
         /// Mã lỗi trả về
         /// </summary>
         public MISACode MISACode { get; set; }
+
+        /// <summary>
+        /// Tổng bản ghi
+        /// </summary>
+        public int? Total { get; set; }
+        #endregion
     }
 }

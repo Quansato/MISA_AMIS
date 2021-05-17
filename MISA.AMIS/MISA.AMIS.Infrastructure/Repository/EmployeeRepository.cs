@@ -12,6 +12,16 @@ namespace MISA.AMIS.Infrastructure.Repository
 {
     public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
+        #region Declare
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Property
+
         public bool CheckDepartmentExits(Guid? departmentId)
         {
             var storeName = $"Proc_CheckDepartmentExist";
@@ -32,6 +42,13 @@ namespace MISA.AMIS.Infrastructure.Repository
             return res;
         }
 
+        public int GetCountEmployee()
+        {
+            var storeName = $"Proc_GetCountEmployee";
+            var res = _dbConnection.QueryFirstOrDefault<int>(storeName, commandType: CommandType.StoredProcedure);
+            return res;
+        }
+
         public IEnumerable<Employee> GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter)
         {
             var storeName = $"Proc_EmployeeFilter";
@@ -46,7 +63,6 @@ namespace MISA.AMIS.Infrastructure.Repository
         public string GetMaxEmployeeCode()
         {
             var storeName = $"Proc_GetMaxEmployeeCode";
-
             var res = _dbConnection.QueryFirstOrDefault<string>(storeName, commandType: CommandType.StoredProcedure);
             return res;
         }
@@ -61,5 +77,6 @@ namespace MISA.AMIS.Infrastructure.Repository
             var entity = _dbConnection.Query<Employee>(storeName, param: dynamicParameters, commandType: CommandType.StoredProcedure);
             return entity;
         }
+        #endregion
     }
 }

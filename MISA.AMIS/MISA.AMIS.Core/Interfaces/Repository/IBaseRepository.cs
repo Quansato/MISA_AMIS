@@ -18,7 +18,7 @@ namespace MISA.AMIS.Core.Interfaces.Repository
         /// Lấy toàn bộ dữ liệu trong bảng
         /// </summary>
         /// <returns></returns>
-        /// CreatedBy:ntquan(4/5/2021)
+        /// CreatedBy:ntquan(13/5/2021)
         IEnumerable<MISAEntity> GetEntities();
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace MISA.AMIS.Core.Interfaces.Repository
         /// </summary>
         /// <param name="entityId">Id thực thể</param>
         /// <returns>Thực thể có id tương ứng</returns>
-        /// CreatedBy:ntquan(4/5/2021)
+        /// CreatedBy:ntquan(13/5/2021)
         MISAEntity GetById(Guid entityId);
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace MISA.AMIS.Core.Interfaces.Repository
         /// </summary>
         /// <param name="entity">Thực thể</param>
         /// <returns>Số bản ghi thêm mới bản db</returns>
-        /// CreatedBy:ntquan(4/5/2021)
+        /// CreatedBy:ntquan(13/5/2021)
         int Insert(MISAEntity entity);
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace MISA.AMIS.Core.Interfaces.Repository
         /// <param name="entity">Thực thể</param>
         /// <param name="entityId">Id thực thể</param>
         /// <returns>Số bản ghi được update trong db</returns>
-        /// CreatedBy:ntquan(4/5/2021)
+        /// CreatedBy:ntquan(13/5/2021)
         int Update(MISAEntity entity, Guid entityId);
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace MISA.AMIS.Core.Interfaces.Repository
         /// </summary>
         /// <param name="entityId">Id thực thể</param>
         /// <returns>Số bản ghi đã xoá tỏng db</returns>
-        /// CreatedBy:ntquan(4/5/2021)
+        /// CreatedBy:ntquan(13/5/2021)
         int Delete(Guid entityId);
 
         /// <summary>
@@ -60,6 +60,7 @@ namespace MISA.AMIS.Core.Interfaces.Repository
         /// <param name="entity">entity</param>
         /// <param name="property">trường dữ liệu</param>
         /// <returns>property</returns>
+        /// CreatedBy: ntquan(13/05/2021)
         MISAEntity GetEntityByProperty(MISAEntity entity, PropertyInfo property);
     }
 }

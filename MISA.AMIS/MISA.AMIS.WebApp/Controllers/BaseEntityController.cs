@@ -112,7 +112,7 @@ namespace MISA.AMIS.WebApp.Controllers
         /// Xoá 
         /// </summary>
         /// <param name="id"> Id thực thể</param>
-        /// <returns></returns>
+        /// <returns>Số bản ghi đã xoá</returns>
         /// CreatedBy: ntquan(11/05/2021)
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MISA.AMIS.Core.Interfaces.Repository
 {
+    /// <summary>
+    /// Interface EmployeeRepository
+    /// </summary>
     public interface IEmployeeRepository : IBaseRepository<Employee>
     {
         /// <summary>
@@ -19,7 +22,7 @@ namespace MISA.AMIS.Core.Interfaces.Repository
         IEnumerable<Employee> GetPaging(int pageIndex, int pageSize);
 
         /// <summary>
-        /// Kieemr tra max nhaan vieen
+        /// Kiểm tra mã nhân viên đã tồn tại hay chưa
         /// </summary>
         /// <param name="employeeCode">string: mã nhân viên</param>
         /// <returns>true - nếu đã có; false - nếu chưa có</returns>
@@ -41,6 +44,22 @@ namespace MISA.AMIS.Core.Interfaces.Repository
         /// CreatedBy: ntquan(11/05/2021)   
         string GetMaxEmployeeCode();
 
+
+        /// <summary>
+        /// Lấy tổng số dữ liệu nhân viên
+        /// </summary>
+        /// <returns>Tổng bản ghi nhân viên</returns>
+        /// CreatedBy: ntquan(11/05/2021) 
+        int GetCountEmployee();
+
+        /// <summary>
+        /// Lọc nhân viên 
+        /// </summary>
+        /// <param name="pageIndex">Trang</param>
+        /// <param name="pageSize">Số bản ghi / trang</param>
+        /// <param name="employeeFilter">keyword để lọc</param>
+        /// <returns>entities theo key lọc</returns>
+        /// CreatedBy: ntquan(13/05/2021)
         IEnumerable<Employee> GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter);
     }
 }

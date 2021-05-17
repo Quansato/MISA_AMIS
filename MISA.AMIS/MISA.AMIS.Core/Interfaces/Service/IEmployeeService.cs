@@ -16,7 +16,7 @@ namespace MISA.AMIS.Core.Interfaces.Service
         /// <param name="pageSize">số bản ghi trên 1 trang</param>
         /// <returns></returns>
         /// CreatedBy:ntquan(11/05/2021)
-        IEnumerable<Employee> GetPaging(int pageIndex, int pageSize);
+        ServiceResult GetPaging(int pageIndex, int pageSize);
 
         /// <summary>
         /// Lấy mã nhân viên mới nhất
@@ -34,13 +34,21 @@ namespace MISA.AMIS.Core.Interfaces.Service
         bool CheckEmployeeCodeExits(string employeeCode);
 
         /// <summary>
+        /// Tổng số dữ liệu trong db
+        /// </summary>
+        /// <returns>Tổng số dữ liệu</returns>
+        /// CreatedBy: ntquan(11/05/2021)
+        int GetCountEmployee();
+
+        /// <summary>
         /// Tìm kiếm nhân viên
         /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="employeeFilter"></param>
+        /// <param name="pageIndex">Trang</param>
+        /// <param name="pageSize">Số bản ghi / trang</param>
+        /// <param name="employeeFilter">keyword cần lọc</param>
         /// <returns></returns>
-        IEnumerable<Employee> GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter);
+        /// CreatedBy: ntquan(13/05/2021)
+        ServiceResult GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter);
 
     }
 }

@@ -61,7 +61,7 @@ namespace MISA.AMIS.WebApp
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MISA.AMIS.WebApp v1"));
             }
-
+            // xử lý exception
             app.UseExceptionHandler(c => c.Run(async context =>
             {
                 var exception = context.Features

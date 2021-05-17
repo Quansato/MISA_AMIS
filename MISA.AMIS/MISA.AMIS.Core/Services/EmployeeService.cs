@@ -13,10 +13,12 @@ namespace MISA.AMIS.Core.Services
     public class EmployeeService : BaseService<Employee>, IEmployeeService
     {
         IEmployeeRepository _employeeReponsitory;
+        ServiceResult _serviceResult;
 
         public EmployeeService(IEmployeeRepository employeeRepository) : base(employeeRepository)
         {
             _employeeReponsitory = employeeRepository;
+             _serviceResult = new ServiceResult();
         }
 
         public bool CheckEmployeeCodeExits(string employeeCode)
@@ -25,10 +27,19 @@ namespace MISA.AMIS.Core.Services
             return isExist;
         }
 
-        public IEnumerable<Employee> GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter)
+        public int GetCountEmployee()
         {
+            var count = _employeeReponsitory.GetCountEmployee();
+            return count;
+        }
+
+        public ServiceResult GetEmployeeFilter(int pageIndex, int pageSize, string employeeFilter)
+        {
+            var count = _employeeReponsitory.GetCountEmployee();
             var entities = _employeeReponsitory.GetEmployeeFilter(pageIndex, pageSize,employeeFilter);
-            return entities;
+            _serviceResult.data = entities;
+            _serviceResult.Total = count;
+            return _serviceResult;
         }
 
         public string GetNewEmployeeCode()
@@ -52,10 +63,13 @@ namespace MISA.AMIS.Core.Services
             return newCode;
         }
 
-        public IEnumerable<Employee> GetPaging(int pageIndex, int pageSize)
+        public ServiceResult GetPaging(int pageIndex, int pageSize)
         {
+            var count = _employeeReponsitory.GetCountEmployee();
             var entities = _employeeReponsitory.GetPaging(pageIndex, pageSize);
-            return entities;
+            _serviceResult.data = entities;
+            _serviceResult.Total = count;
+            return _serviceResult;
         }
 
         protected override void ValidateCustom(Employee employee)

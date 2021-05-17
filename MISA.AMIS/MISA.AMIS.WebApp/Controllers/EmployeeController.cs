@@ -37,7 +37,7 @@ namespace MISA.AMIS.WebApp.Controllers
         /// Lấy mã nhân viên mới
         /// </summary>
         /// <returns>Mã nhân viên mới</returns>
-        /// CreatedBy:ntquan(11/055/2021)
+        /// CreatedBy:ntquan(11/05/2021)
         [HttpGet("NewEmployeeCode")]
         public IActionResult GetNewEmployeeCode()
         {
@@ -45,6 +45,12 @@ namespace MISA.AMIS.WebApp.Controllers
             return Ok(entities);
         }
 
+        /// <summary>
+        /// Kiểm tra mã nhân viên đã tồn tại hay chưa
+        /// </summary>
+        /// <param name="employeeCode">mã NV</param>
+        /// <returns>true nếu đã tồn tại, false nếu chưa tồn tại</returns>
+        /// CreatedBy: ntquan(11/05/2021)
         [HttpGet("CheckEmployeeCodeExist")]
         public IActionResult CheckEmployeeCodeExist(string employeeCode)
         {
@@ -52,6 +58,14 @@ namespace MISA.AMIS.WebApp.Controllers
             return Ok(isExist);
         }
 
+        /// <summary>
+        /// Lọc nhân viên
+        /// </summary>
+        /// <param name="pageIndex">Trang</param>
+        /// <param name="pageSize">Số bản ghi / trang</param>
+        /// <param name="employeeFilter">keyword</param>
+        /// <returns></returns>
+        /// CreatedBy: ntquan(13/05/2021)
         [HttpGet("employeeFilter")]
         public IActionResult GetEmployeeFilter(int pageIndex,int pageSize,string employeeFilter)
         {

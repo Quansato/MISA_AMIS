@@ -15,6 +15,7 @@ namespace MISA.AMIS.Infrastructure.Repository
 {
     public class BaseRepository<MISAEntity> : IBaseRepository<MISAEntity>, IDisposable where MISAEntity : BaseEntity
     {
+        #region Declare
         protected string _tableName = string.Empty;
         protected string _connectionString = "Host=47.241.69.179;" +
             "Port=3306;" +
@@ -23,13 +24,19 @@ namespace MISA.AMIS.Infrastructure.Repository
             "Database=MF796_NTQUAN_AMIS;";
         protected IDbConnection _dbConnection;
 
+        #endregion
+
+        #region Constructor
         public BaseRepository()
         {
-            //_connectionString = _config.GetConnectionString("MISA.CukCuk");
-
             _tableName = typeof(MISAEntity).Name;
             _dbConnection = new MySqlConnection(_connectionString);
         }
+
+        #endregion
+
+        #region Property
+
         public IEnumerable<MISAEntity> GetEntities()
         {
             //get data
@@ -118,5 +125,7 @@ namespace MISA.AMIS.Infrastructure.Repository
         {
             _dbConnection.Dispose();
         }
+        #endregion
+
     }
 }
