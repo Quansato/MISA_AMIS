@@ -270,11 +270,11 @@
                         me.dataEmployee = response.data.data;
                         me.total = !response.data.Total ? 0 : response.data.Total;
                         me.isLoading = false;
-                        console.log(me.dataEmployee);
                         if (me.dataEmployee.length == 0) me.isNoData = true;
                         else me.isNoData = false;
                         me.dataRow = {};
-                        me.selectedUser=[]
+                        me.selectedUser=[];
+                        me.$refs.selectAll.checked=false;
                     })
                     .catch((err) => {
                         console.log(err);
@@ -430,8 +430,17 @@
              */
             async onDeleteEmployee() {
                 var me = this;
-                if( me.isDeleteByShortcut) return;
-                var url = `${me.API_HOST}/api/v1/Employees/${me.dataContext.EmployeeId}`;
+                var url='';
+                if( me.isDeleteByShortcut){
+                    var lstId='';
+                    lstId= me.selectedUser.filter(item=>item!='All').join(',');
+                    url = `${me.API_HOST}/api/v1/Employees/multipleEmployee?id=${lstId}`;
+                    await axios.delete(url);
+                    me.isShowAlert=false;
+                    me.onLoadEmployee();
+                    return;
+                }
+                url = `${me.API_HOST}/api/v1/Employees/${me.dataContext.EmployeeId}`;
                 await axios.delete(url);
                 me.isShowAlert = false;
                 me.onLoadEmployee();
@@ -449,6 +458,7 @@
                         var countEmployee = me.selectedUser.indexOf('All')!=-1?me.selectedUser.length - 1: me.selectedUser.length
                         e.preventDefault();
                         e.stopPropagation();
+                        if(me.selectedUser.length == 0) return;
                         console.log(countEmployee);
                         me.isDeleteByShortcut =true;
                         me.iconCls = "icon-warning-alert";

@@ -79,7 +79,7 @@ namespace MISA.AMIS.WebApp.Controllers
         /// <param name="id"> List Id thực thể</param>
         /// <returns>Số bản ghi đã xoá</returns>
         /// CreatedBy: ntquan(11/05/2021)
-        [HttpDelete("/multipleEmployee")]
+        [HttpDelete("multipleEmployee")]
         public IActionResult DeleteMultiple(string id)
         {
             var entity = _employeeService.DeleteMultipleEmployee(id);
