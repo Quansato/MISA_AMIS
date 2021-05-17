@@ -274,6 +274,7 @@
                         if (me.dataEmployee.length == 0) me.isNoData = true;
                         else me.isNoData = false;
                         me.dataRow = {};
+                        me.selectedUser=[]
                     })
                     .catch((err) => {
                         console.log(err);
@@ -326,6 +327,7 @@
                                 console.log(me.dataEmployee);
                                 if (me.dataEmployee.length == 0) me.isNoData = true;
                                 else me.isNoData = false;
+                                me.selectedUser=[]
                             })
                             .catch((err) => {
                                 console.log(err);
