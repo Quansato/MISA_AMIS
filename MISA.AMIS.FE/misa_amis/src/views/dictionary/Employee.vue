@@ -18,7 +18,7 @@
                        @input="onSearch($event.target.value)" />
                 <div class="icon-search mi-16"></div>
             </div>
-            <button class="reload mi-24" @click="onLoadEmployee"></button>
+            <button class="reload mi-24" @click="onLoadEmployee" title="Lấy lại dữ liệu"></button>
         </div>
 
         <div class="content__grid">
@@ -57,8 +57,8 @@
                         <!-- checkbox -->
                         <td class="sticky-left left-16 justify-center"
                             :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }">
                             <input type="checkbox"
                                    name=""
                                    id=""
@@ -71,83 +71,83 @@
                         <td :title="item.EmployeeCode"
                             class="sticky-left left-66"
                             :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }">
                             {{ item.EmployeeCode }}
                         </td>
 
                         <!-- Tên NV -->
                         <td :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }">
                             {{ item.EmployeeName }}
                         </td>
 
                         <!-- Giới tính -->
                         <td :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }">
                             {{ item.GenderName }}
                         </td>
 
                         <!-- Ngày sinh -->
                         <td class="text-center"
                             :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }">
                             {{ $fn.fnFormatDate(item.DateOfBirth) }}
                         </td>
 
                         <!-- Số CMND -->
                         <td :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }">
                             {{ item.IdentityNumber }}
                         </td>
 
                         <!-- Chức danh -->
                         <td :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }">
                             {{ item.EmployeePosition }}
                         </td>
 
                         <!-- Tên đơn vị -->
                         <td :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }"></td>
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }"></td>
 
                         <!-- Số tài khoản -->
                         <td :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }">
                             {{ item.BankAccountNumber }}
                         </td>
 
                         <!-- Tên ngân hàng -->
                         <td :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }">
                             {{ item.BankName }}
                         </td>
 
                         <!-- Chi nhánh tài khoản ngân hàng -->
                         <td :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }">
                             {{ item.BankProvinceName }}
                         </td>
 
                         <!--Chức năng -->
                         <td class="sticky-right flex text-center items-center justify-center"
                             :class="{
-                selected: selectedUser.indexOf(item.EmployeeId) != -1,
-              }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                        }">
                             <button class="btn-edit"
                                     @click="rowdblClick(item)"
                                     :class="{
-                  selected: selectedUser.indexOf(item.EmployeeId) != -1,
-                }">
+                            selected: selectedUser.indexOf(item.EmployeeId) != -1,
+                            }">
                                 Sửa
                             </button>
                             <div class="button-arrow flex justify-center"
@@ -591,6 +591,12 @@
                 cursor: pointer;
             }
 
+                .content .grid-filter .reload:hover {
+                background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat -1097px -88px;
+                border: none;
+                cursor: pointer;
+            }
+
     .no-data {
         position: sticky;
         bottom: 46;
@@ -683,7 +689,7 @@
         display: grid;
         min-width: 100%;
         width: max-content;
-        grid-template-columns: minmax(16px, 16px) minmax(40px, 40px) minmax(130px, 1fr) minmax(200px, 1.67fr) minmax(100px, 0.5fr) minmax(130px, 1fr) minmax( 130px, 2fr ) minmax(150px, 1.67fr) minmax(150px, 1.67fr) minmax(150px, 1.67fr) minmax( 150px, 1.67fr ) minmax(200px, 1.67fr) minmax(130px, 1fr) minmax(30px, 30px) minmax(30px, 30px);
+        grid-template-columns: minmax(16px, 16px) minmax(40px, 40px) minmax(130px, 1fr) minmax(200px, 1.67fr) minmax(100px, 0.5fr) minmax(130px, 1fr) minmax( 130px, 1.67fr ) minmax(150px, 1.67fr) minmax(150px, 2fr) minmax(150px, 1.67fr) minmax( 150px, 1.67fr ) minmax(200px, 1.67fr) minmax(130px, 1fr) minmax(30px, 30px) minmax(30px, 30px);
     }
 
     thead,

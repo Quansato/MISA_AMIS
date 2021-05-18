@@ -164,9 +164,6 @@ namespace MISA.AMIS.Core.Entities
         /// </summary>
         public string BankProvinceName { get; set; }
 
-        public int? PageIndex { get; set; }
-        public int? PageSize { get; set; }
-
         #endregion
     }
 }
