@@ -50,7 +50,7 @@ namespace MISA.AMIS.Core.Services
                 // Nếu dữ liệu đầu vào ok thì mới tiếp tục:
                 _serviceResult.data = _baseRepository.Insert(entity);
                 _serviceResult.Msg = "Thêm mới dữ liệu thành công";
-                _serviceResult.MISACode = Enums.MISACode.IsValid;
+                _serviceResult.MISACode = Enums.MISACode.Success;
                 return _serviceResult;
             }
             catch (Exception ex)
@@ -69,7 +69,7 @@ namespace MISA.AMIS.Core.Services
                 ValidateObject(entity);
                 _serviceResult.data = _baseRepository.Update(entity, entityId);
                 _serviceResult.Msg = "Cập nhật dữ liệu thành công";
-                _serviceResult.MISACode = Enums.MISACode.IsValid;
+                _serviceResult.MISACode = Enums.MISACode.Success;
                 return _serviceResult;
             }
             catch (Exception ex)
