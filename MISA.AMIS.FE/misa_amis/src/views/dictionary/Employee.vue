@@ -115,7 +115,9 @@
                         <!-- Tên đơn vị -->
                         <td :class="{
                             selected: selectedUser.indexOf(item.EmployeeId) != -1,
-                        }"></td>
+                        }">
+                        {{ item.DepartmentName }}
+                        </td>
 
                         <!-- Số tài khoản -->
                         <td :class="{
